@@ -18,6 +18,10 @@ export interface TravelPackage {
   tags?: string[];
   mapEmbedUrl?: string;
   bookingUrl?: string;
+  totalSeats?: number;
+  bookedSeats?: number;
+  availableSeats?: number;
+  readyToPickup?: string[];
 }
 
 export const packagesData: TravelPackage[] = [
@@ -39,12 +43,16 @@ export const packagesData: TravelPackage[] = [
     availability: ["October 2025", "November 2025", "December 2025"],
     tags: ["Adventure", "Culture", "Desert"],
     mapEmbedUrl: "https://maps.google.com/...",
-    bookingUrl: "https://yourwebsite.com/checkout/rajasthan-safari"
+    bookingUrl: "https://yourwebsite.com/checkout/rajasthan-safari",
+    totalSeats: 100,
+    bookedSeats: 75,
+    availableSeats: 25,
+    readyToPickup: ['Ahmedabad', 'Rajasthan', 'Jaisalmer']
   },
   {
     id: 2,
     title: "Kerala Backwater Escape",
-    description: "A serene houseboat journey through Kerala’s backwaters.",
+    description: "A serene houseboat journey through Kerala's backwaters.",
     details: "Sail through the tranquil backwaters of Alleppey in a traditional houseboat. Enjoy fresh seafood, coconut groves, and a glimpse into rural Kerala life.",
     image: "https://dwq3yv87q1b43.cloudfront.net/public/blogs/fit-in/1200x675/Blog_20241010-942624340-1728560023.jpg",
     duration: "4 Days",
@@ -59,7 +67,11 @@ export const packagesData: TravelPackage[] = [
     availability: ["November 2025", "December 2025", "January 2026"],
     tags: ["Nature", "Relaxation", "Houseboat"],
     mapEmbedUrl: "https://maps.google.com/...",
-    bookingUrl: "https://yourwebsite.com/checkout/kerala-backwaters"
+    bookingUrl: "https://yourwebsite.com/checkout/kerala-backwaters",
+    totalSeats: 80,
+    bookedSeats: 60,
+    availableSeats: 20,
+    readyToPickup: ['Ahmedabad', 'Uttarakhand', 'Delhi']
   },
   {
     id: 3,
@@ -79,7 +91,11 @@ export const packagesData: TravelPackage[] = [
     availability: ["December 2025", "January 2026", "February 2026"],
     tags: ["Adventure", "Snow", "Hills"],
     mapEmbedUrl: "https://maps.google.com/...",
-    bookingUrl: "https://yourwebsite.com/checkout/manali-snow"
+    bookingUrl: "https://yourwebsite.com/checkout/manali-snow",
+    totalSeats: 90,
+    bookedSeats: 70,
+    availableSeats: 20,
+    readyToPickup: ['Ahmedabad', 'Uttarakhand', 'Delhi']
   },
   {
     id: 4,
@@ -99,13 +115,17 @@ export const packagesData: TravelPackage[] = [
     availability: ["July 2025", "August 2025", "September 2025"],
     tags: ["Exploration", "Waterfalls", "Caves"],
     mapEmbedUrl: "https://maps.google.com/...",
-    bookingUrl: "https://yourwebsite.com/checkout/meghalaya-caves"
+    bookingUrl: "https://yourwebsite.com/checkout/meghalaya-caves",
+    totalSeats: 70,
+    bookedSeats: 50,
+    availableSeats: 20,
+    readyToPickup: ['Ahmedabad', 'Uttarakhand', 'Delhi']
   },
   {
     id: 5,
     title: "Andaman Island Hopping",
     description: "Snorkeling, scuba diving, and turquoise beaches await you.",
-    details: "Hop between Andaman’s most scenic islands including Havelock, Neil, and Ross. Enjoy marine life, beach dinners, and coral reefs.",
+    details: "Hop between Andaman's most scenic islands including Havelock, Neil, and Ross. Enjoy marine life, beach dinners, and coral reefs.",
     image: "https://i0.wp.com/weekendyaari.in/wp-content/uploads/2024/11/andam-tour-.jpg?fit=1280%2C721&ssl=1",
     duration: "5 Days",
     price: "₹18,000",
@@ -119,13 +139,17 @@ export const packagesData: TravelPackage[] = [
     availability: ["October 2025", "November 2025", "December 2025"],
     tags: ["Beach", "Diving", "Island"],
     mapEmbedUrl: "https://maps.google.com/...",
-    bookingUrl: "https://yourwebsite.com/checkout/andaman-hopping"
+    bookingUrl: "https://yourwebsite.com/checkout/andaman-hopping",
+    totalSeats: 100,
+    bookedSeats: 80,
+    availableSeats: 20,
+    readyToPickup: ['Ahmedabad', 'Uttarakhand', 'Delhi']
   },
   {
     id: 6,
     title: "Ladakh Biking Expedition",
     description: "An adrenaline-packed bike ride through high-altitude terrains.",
-    details: "Ride through the world’s highest motorable roads, see monasteries, and camp near Pangong Lake.",
+    details: "Ride through the world's highest motorable roads, see monasteries, and camp near Pangong Lake.",
     image: "https://thedreamridersgroup.com/listing/9/Explore%20Ladakh%20on%20two%20wheels,Morey%20Plains.jpg",
     duration: "8 Days",
     price: "₹22,000",
@@ -139,7 +163,11 @@ export const packagesData: TravelPackage[] = [
     availability: ["June 2025", "July 2025", "August 2025"],
     tags: ["Adventure", "Motorcycle", "High Altitude"],
     mapEmbedUrl: "https://maps.google.com/...",
-    bookingUrl: "https://yourwebsite.com/checkout/ladakh-ride"
+    bookingUrl: "https://yourwebsite.com/checkout/ladakh-ride",
+    totalSeats: 120,
+    bookedSeats: 100,
+    availableSeats: 20,
+    readyToPickup: ['Ahmedabad', 'Uttarakhand', 'Delhi']
   },
   {
     id: 7,
@@ -159,7 +187,11 @@ export const packagesData: TravelPackage[] = [
     availability: ["August 2025", "September 2025", "October 2025"],
     tags: ["Hills", "Coffee", "Relaxation"],
     mapEmbedUrl: "https://maps.google.com/...",
-    bookingUrl: "https://yourwebsite.com/checkout/coorg-trail"
+    bookingUrl: "https://yourwebsite.com/checkout/coorg-trail",
+    totalSeats: 50,
+    bookedSeats: 30,
+    availableSeats: 20,
+    readyToPickup: ['Ahmedabad', 'Banglore']
   },
   {
     id: 8,
@@ -179,7 +211,11 @@ export const packagesData: TravelPackage[] = [
     availability: ["April 2025", "May 2025", "June 2025"],
     tags: ["Adventure", "Spiritual", "Camping"],
     mapEmbedUrl: "https://maps.google.com/...",
-    bookingUrl: "https://yourwebsite.com/checkout/rishikesh-rafting"
+    bookingUrl: "https://yourwebsite.com/checkout/rishikesh-rafting",
+    totalSeats: 80,
+    bookedSeats: 60,
+    availableSeats: 20,
+    readyToPickup: ['Ahmedabad', 'Delhi']
   },
   {
     id: 9,
@@ -199,7 +235,11 @@ export const packagesData: TravelPackage[] = [
     availability: ["June 2025", "July 2025", "August 2025"],
     tags: ["Adventure", "Rainforest", "Camping"],
     mapEmbedUrl: "https://maps.google.com/...",
-    bookingUrl: "https://yourwebsite.com/checkout/amazon-expedition"
+    bookingUrl: "https://yourwebsite.com/checkout/amazon-expedition",
+    totalSeats: 100,
+    bookedSeats: 80,
+    availableSeats: 20,
+    readyToPickup: ['Ahmedabad', 'Mumbai', 'Delhi']
   },
   {
     id: 10,
@@ -219,7 +259,11 @@ export const packagesData: TravelPackage[] = [
     availability: ["May 2025", "June 2025", "July 2025"],
     tags: ["Culture", "City", "Sightseeing"],
     mapEmbedUrl: "https://maps.google.com/...",
-    bookingUrl: "https://yourwebsite.com/checkout/rome-adventure"
+    bookingUrl: "https://yourwebsite.com/checkout/rome-adventure",
+    totalSeats: 50,
+    bookedSeats: 30,
+    availableSeats: 20,
+    readyToPickup: ['Ahmedabad', 'Mumbai', 'Delhi']
   },
   {
     id: 11,
@@ -239,7 +283,11 @@ export const packagesData: TravelPackage[] = [
     availability: ["May 2025", "June 2025", "July 2025"],
     tags: ["Culture", "City", "Sightseeing"],
     mapEmbedUrl: "https://maps.google.com/...",
-    bookingUrl: "https://yourwebsite.com/checkout/mediterranean-voyage"
+    bookingUrl: "https://yourwebsite.com/checkout/mediterranean-voyage",
+    totalSeats: 60,
+    bookedSeats: 40,
+    availableSeats: 20,
+    readyToPickup: ['Ahmedabad', 'Mumbai', 'Delhi']
   },
   {
     id: 12,
@@ -259,12 +307,16 @@ export const packagesData: TravelPackage[] = [
     availability: ["June 2025", "July 2025", "August 2025"],
     tags: ["Adventure", "Rainforest", "Camping"],
     mapEmbedUrl: "https://maps.google.com/...",
-    bookingUrl: "https://yourwebsite.com/checkout/amazon-expedition"
+    bookingUrl: "https://yourwebsite.com/checkout/amazon-expedition",
+    totalSeats: 100,
+    bookedSeats: 80,
+    availableSeats: 20,
+    readyToPickup: ['Ahmedabad', 'Mumbai', 'Delhi']
   },
   {
     id: 13,
     title: "Himalayan Trek",
-     description: "A 7-day thrilling trek through the majestic Himalayas.",
+    description: "A 7-day thrilling trek through the majestic Himalayas.",
     details:
       "Embark on an unforgettable journey through the rugged terrains of the Himalayas. Discover serene monasteries, snow-covered peaks, and local cultures while staying in eco-friendly camps. Meals, guides, permits, and transportation are included.",
     price: "₹12,500",
@@ -280,7 +332,11 @@ export const packagesData: TravelPackage[] = [
     availability: ["May 2025", "June 2025", "July 2025"],
     tags: ["Adventure", "Himalayas", "Camping"],
     mapEmbedUrl: "https://maps.google.com/...",
-    bookingUrl: "https://yourwebsite.com/checkout/himalayan-trek"
+    bookingUrl: "https://yourwebsite.com/checkout/himalayan-trek",
+    totalSeats: 100,
+    bookedSeats: 70,
+    availableSeats: 30,
+    readyToPickup: ['Ahmedabad', 'Mumbai', 'Delhi']
   },
   {
     id: 14,
@@ -301,6 +357,10 @@ export const packagesData: TravelPackage[] = [
     availability: ["May 2025", "June 2025", "July 2025"],
     tags: ["Relaxation", "Beach", "Water Sports"],
     mapEmbedUrl: "https://maps.google.com/...",
-    bookingUrl: "https://yourwebsite.com/checkout/goa-beach-retreat"
+    bookingUrl: "https://yourwebsite.com/checkout/goa-beach-retreat",
+    totalSeats: 40,
+    bookedSeats: 20,
+    availableSeats: 20,
+    readyToPickup: ['Ahmedabad', 'Mumbai', 'Goa']
   },
 ];
