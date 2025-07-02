@@ -177,22 +177,24 @@ export default function TripsSection() {
           className="relative w-[20rem] h-[18rem] mx-auto"
           aria-labelledby={`carousel-heading-${id}`}
         >
-          <ul
-            className="absolute flex mx-[-1rem] transition-transform duration-1000 ease-in-out"
-            style={{
-              transform: `translateX(-${current * (100 / packagesData.length)}%)`,
-            }}
-          >
-            {packagesData.map((pkg, index) => (
-              <Slide
-                key={index}
-                pkg={pkg}
-                index={index}
-                current={current}
-                handleSlideClick={handleSlideClick}
-              />
-            ))}
-          </ul>
+          <Link href={`/packages/${packagesData[current].id}`}>
+            <ul
+              className="absolute flex mx-[-1rem] transition-transform duration-1000 ease-in-out"
+              style={{
+                transform: `translateX(-${current * (100 / packagesData.length)}%)`,
+              }}
+            >
+              {packagesData.map((pkg, index) => (
+                <Slide
+                  key={index}
+                  pkg={pkg}
+                  index={index}
+                  current={current}
+                  handleSlideClick={handleSlideClick}
+                />
+              ))}
+            </ul>
+          </Link>
 
           <div className="absolute flex justify-center w-full top-[calc(100%+1rem)]">
             <CarouselControl
