@@ -1,11 +1,11 @@
-'use client';
-import React, { useState, useRef, useId, useEffect } from 'react';
-import { packagesData } from '../types/packages';
-import { IconArrowNarrowRight } from '@tabler/icons-react';
-import Link from 'next/link';
+"use client";
+import React, { useState, useRef, useId, useEffect } from "react";
+import { packagesData } from "../types/packages";
+import { IconArrowNarrowRight } from "@tabler/icons-react";
+import Link from "next/link";
 
 interface SlideProps {
-  pkg: typeof packagesData[0];
+  pkg: (typeof packagesData)[0];
   index: number;
   current: number;
   handleSlideClick: (index: number) => void;
@@ -24,8 +24,8 @@ const Slide = ({ pkg, index, current, handleSlideClick }: SlideProps) => {
       const x = xRef.current;
       const y = yRef.current;
 
-      slideRef.current.style.setProperty('--x', `${x}px`);
-      slideRef.current.style.setProperty('--y', `${y}px`);
+      slideRef.current.style.setProperty("--x", `${x}px`);
+      slideRef.current.style.setProperty("--y", `${y}px`);
 
       frameRef.current = requestAnimationFrame(animate);
     };
@@ -64,10 +64,10 @@ const Slide = ({ pkg, index, current, handleSlideClick }: SlideProps) => {
         style={{
           transform:
             current !== index
-              ? 'scale(0.98) rotateX(8deg)'
-              : 'scale(1) rotateX(0deg)',
-          transition: 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)',
-          transformOrigin: 'bottom',
+              ? "scale(0.98) rotateX(8deg)"
+              : "scale(1) rotateX(0deg)",
+          transition: "transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)",
+          transformOrigin: "bottom",
         }}
       >
         <div
@@ -75,8 +75,8 @@ const Slide = ({ pkg, index, current, handleSlideClick }: SlideProps) => {
           style={{
             transform:
               current === index
-                ? 'translate3d(calc(var(--x) / 30), calc(var(--y) / 30), 0)'
-                : 'none',
+                ? "translate3d(calc(var(--x) / 30), calc(var(--y) / 30), 0)"
+                : "none",
           }}
         >
           <div
@@ -84,25 +84,26 @@ const Slide = ({ pkg, index, current, handleSlideClick }: SlideProps) => {
             style={{ backgroundImage: `url(${pkg.image})` }}
           >
             <article
-              className={`relative p-2 w-full max-w-[80%] bg-black/40 rounded transition-opacity duration-1000 ease-in-out ${
-                current === index ? 'opacity-100 visible' : 'opacity-0 invisible'
-              }`}
+              className={`relative p-2 w-full max-w-[80%] bg-black/40 rounded transition-opacity duration-1000 ease-in-out ${current === index
+                  ? "opacity-100 visible"
+                  : "opacity-0 invisible"
+                }`}
             >
               <h3
                 className="font-bold text-lg text-white"
-                style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}
+                style={{ textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)" }}
               >
                 {pkg.title}
               </h3>
               <p
                 className="text-sm text-gray-200"
-                style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}
+                style={{ textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)" }}
               >
                 {pkg.duration}
               </p>
               <p
                 className="text-sm text-green-100 font-semibold"
-                style={{ textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)' }}
+                style={{ textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)" }}
               >
                 {pkg.price}
               </p>
@@ -120,12 +121,15 @@ interface CarouselControlProps {
   handleClick: () => void;
 }
 
-const CarouselControl = ({ type, title, handleClick }: CarouselControlProps) => {
+const CarouselControl = ({
+  type,
+  title,
+  handleClick,
+}: CarouselControlProps) => {
   return (
     <button
-      className={`w-10 h-10 flex items-center mx-2 justify-center bg-neutral-200 dark:bg-neutral-800 border-3 border-transparent rounded-full focus:border-[#000] focus:outline-none hover:-translate-y-0.5 active:translate-y-0.5 transition duration-200 ${
-        type === 'previous' ? 'rotate-180' : ''
-      }`}
+      className={`w-10 h-10 flex items-center mx-2 justify-center bg-neutral-200 dark:bg-neutral-800 border-3 border-transparent rounded-full focus:border-[#000] focus:outline-none hover:-translate-y-0.5 active:translate-y-0.5 transition duration-200 ${type === "previous" ? "rotate-180" : ""
+        }`}
       title={title}
       onClick={handleClick}
     >
@@ -155,19 +159,23 @@ export default function TripsSection() {
   };
 
   return (
-    <section id='trips' className="py-30 px-4 md:px-16 bg-white">
+    <section id="trips" className="py-30 px-4 md:px-16 bg-white">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
-          <div  className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2">
             <h2 className="text-4xl font-semibold">
               Must <em className="italic text-gray-600">experience</em> packages
             </h2>
             <p className="text-sm text-gray-600">
-              Indulge in our carefully crafted packages to immerse you in the most captivating and transformative travel adventures.
+              Indulge in our carefully crafted packages to immerse you in the
+              most captivating and transformative travel adventures.
             </p>
           </div>
           <div>
-            <Link href="/packages" className="font-semibold text-black hover:underline">
+            <Link
+              href="/packages"
+              className="font-semibold text-black hover:underline"
+            >
               See All Packages
             </Link>
           </div>
@@ -181,7 +189,8 @@ export default function TripsSection() {
             <ul
               className="absolute flex mx-[-1rem] transition-transform duration-1000 ease-in-out"
               style={{
-                transform: `translateX(-${current * (100 / packagesData.length)}%)`,
+                transform: `translateX(-${current * (100 / packagesData.length)
+                  }%)`,
               }}
             >
               {packagesData.map((pkg, index) => (
