@@ -28,10 +28,28 @@ export default function PackageDetailsPage() {
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
-      {/* Elegant Text Header */}
+      {/* Elegant Text Header with Meta Info */}
       <div className="max-w-7xl mx-auto px-4 lg:px-10 pt-16 pb-10 border-b border-gray-200">
-        <h1 className="text-4xl font-bold tracking-tight">{pkg.title}</h1>
-        <p className="text-sm text-gray-600 mt-2 italic">{pkg.description}</p>
+        <div className="flex flex-col md:flex-row justify-between gap-4">
+          <div>
+            <h1 className="text-4xl font-bold tracking-tight">{pkg.title}</h1>
+            <p className="text-sm text-gray-600 mt-2 italic">{pkg.description}</p>
+          </div>
+          <div className="flex flex-wrap gap-3 mt-6 items-start">
+            <div className="flex items-center gap-2 bg-gray-100 rounded-full px-4 py-2">
+              <FunnelIcon className="w-4 h-4 text-black" />
+              <span className="text-sm font-medium">{pkg.category}</span>
+            </div>
+            <div className="flex items-center gap-2 bg-gray-100 rounded-full px-4 py-2">
+              <ClockIcon className="w-4 h-4 text-black" />
+              <span className="text-sm font-medium">{pkg.duration}</span>
+            </div>
+            <div className="flex items-center gap-2 bg-gray-800 rounded-full px-4 py-2">
+              <CurrencyRupeeIcon className="w-4 h-4 text-white" />
+              <span className="text-sm font-bold text-white">{pkg.price}</span>
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="max-w-7xl mx-auto px-4 lg:px-10 py-16 flex flex-col lg:flex-row gap-12">
@@ -46,25 +64,6 @@ export default function PackageDetailsPage() {
 
         {/* Details */}
         <div className="lg:w-1/2 space-y-6">
-          {/* Package Meta Info */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm font-medium text-gray-800">
-            <div className="flex items-center gap-2 bg-gray-50 rounded-xl p-3 shadow-sm border">
-              <FunnelIcon className="w-5 h-5 text-black" />
-              <span className="font-semibold">Category:</span>
-              <span className="ml-auto">{pkg.category}</span>
-            </div>
-            <div className="flex items-center gap-2 bg-gray-50 rounded-xl p-3 shadow-sm border">
-              <ClockIcon className="w-5 h-5 text-black" />
-              <span className="font-semibold">Duration:</span>
-              <span className="ml-auto">{pkg.duration}</span>
-            </div>
-            <div className="flex items-center gap-2 bg-gray-50 rounded-xl p-3 shadow-sm border">
-              <CurrencyRupeeIcon className="w-5 h-5 text-black" />
-              <span className="font-semibold">Price:</span>
-              <span className="ml-auto font-bold text-green-700">{pkg.price}</span>
-            </div>
-          </div>
-
           {/* About & Lists */}
           <div className="bg-white p-6 rounded-2xl shadow-md border border-gray-200 space-y-6">
             <div>
