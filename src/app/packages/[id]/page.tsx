@@ -2,7 +2,7 @@
 import { packagesData } from "@/types/packages";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
-import { ClockIcon, CurrencyRupeeIcon } from "@heroicons/react/24/solid";
+import { ClockIcon, CurrencyRupeeIcon, FunnelIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
 
 export default function PackageDetailsPage() {
@@ -40,6 +40,10 @@ export default function PackageDetailsPage() {
                     <p className="text-md text-gray-600 italic">{pkg.description}</p>
 
                     <div className="flex gap-4 text-sm text-gray-700 font-medium">
+                        <div className="flex items-center gap-2">
+                            <FunnelIcon className="w-5 h-5 text-black" />
+                            <span>{pkg.category}</span>
+                        </div>
                         <div className="flex items-center gap-2">
                             <ClockIcon className="w-5 h-5 text-indigo-500" />
                             <span>{pkg.duration}</span>
@@ -100,11 +104,11 @@ export default function PackageDetailsPage() {
                         )}
                     </div>
 
-                    <button className="bg-indigo-600 text-white px-6 py-3 mt-4 rounded-lg font-semibold hover:bg-indigo-700 transition-all shadow-lg w-fit">
+                    <button className="bg-black text-white rounded-md hover:bg-gray-800 px-6 py-3 mt-4 font-semibold transition-all shadow-lg w-fit">
                         Book This Adventure
                     </button>
                     <Link href="/packages">
-                        <button className="bg-indigo-600 text-white px-6 py-3 mt-4 ml-2 rounded-lg font-semibold hover:bg-indigo-700 transition-all shadow-lg w-fit">
+                        <button className="bg-black text-white hover:bg-gray-800  px-6 py-3 mt-4 ml-2 rounded-lg font-semibold transition-all shadow-lg w-fit">
                             Back to Packages
                         </button>
                     </Link>
