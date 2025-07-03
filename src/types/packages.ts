@@ -348,7 +348,7 @@ export const packagesData: TravelPackage[] = [
     duration: "4 Days",
     image: "https://assets.cntraveller.in/photos/65169715f1f1534fc4e0f24d/4:3/w_1640,h_1230,c_limit/W%20Goa.jpg",
     location: "Goa",
-    category: "Relaxation",
+    category: "Beach",
     rating: 4.7,
     reviewsCount: 56,
     itinerary: ["Day 1: Arrival & Beachfront Stay", "Day 2-4: Beach Activities", "Day 5: Departure"],
