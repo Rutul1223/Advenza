@@ -8,6 +8,7 @@ import {
   FunnelIcon,
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
+import RecommendedPackages from "@/components/Recommended";
 
 export default function PackageDetailsPage() {
   const { id } = useParams();
@@ -151,6 +152,11 @@ export default function PackageDetailsPage() {
           </div>
         </div>
       </div>
+      <RecommendedPackages
+        currentId={pkg.id}
+        category={pkg.category}
+        allPackages={packagesData}
+      />
     </div>
   );
 }
