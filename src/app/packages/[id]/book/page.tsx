@@ -23,11 +23,18 @@ export default function BookAdventurePage() {
         setPkg(found);
         if (found?.availability && found.availability?.length > 0) {
             const startDateFromQuery = searchParams.get("startDate");
-            const initialDate = startDateFromQuery && found.availability.some((avail: any) => avail.startDate === startDateFromQuery)
-                ? startDateFromQuery
-                : found.availability[0].startDate;
-            setSelectedDate(initialDate);
-            setSelectedAvailability(found.availability.find((avail: any) => avail.startDate === initialDate));
+            const availableDates = found.availability.filter(avail => avail.availableTickets > 0);
+            if (availableDates.length > 0) {
+                const initialDate = startDateFromQuery && availableDates.some(avail => avail.startDate === startDateFromQuery)
+                    ? startDateFromQuery
+                    : availableDates[0].startDate;
+                setSelectedDate(initialDate);
+                setSelectedAvailability(found.availability.find(avail => avail.startDate === initialDate));
+            } else {
+                // All dates are sold out
+                setSelectedDate("");
+                setSelectedAvailability(null);
+            }
         }
     }, [id, searchParams]);
 
@@ -117,107 +124,124 @@ export default function BookAdventurePage() {
                 <div className="space-y-6">
                     <h2 className="text-2xl font-bold text-gray-800">Select Your Travel Date</h2>
                     {pkg.availability?.length > 0 ? (
-                        <div className="space-y-4">
-                            <div className="grid gap-3">
-                                {pkg.availability.map((avail: any) => {
-                                    const isLowAvailability = avail.availableTickets <= 5 && avail.availableTickets > 0;
-                                    const isSoldOut = avail.availableTickets === 0;
-                                    const bookedPercentage = (avail.bookedTickets / avail.totalTickets) * 100;
-                                    return (
-                                        <label
-                                            key={avail.startDate}
-                                            className={`flex items-center p-4 rounded-lg border cursor-pointer transition-all duration-200 relative ${selectedDate === avail.startDate
+                        pkg.availability.some(avail => avail.availableTickets > 0) ? (
+                            <div className="space-y-4">
+                                <div className="grid gap-3">
+                                    {pkg.availability.map((avail: any) => {
+                                        const isLowAvailability = avail.availableTickets <= 5 && avail.availableTickets > 0;
+                                        const isSoldOut = avail.availableTickets === 0;
+                                        const bookedPercentage = (avail.bookedTickets / avail.totalTickets) * 100;
+                                        return (
+                                            <label
+                                                key={avail.startDate}
+                                                className={`flex items-center p-4 rounded-lg border cursor-pointer transition-all duration-200 relative ${selectedDate === avail.startDate
                                                     ? "bg-black text-white border-2 border-black"
                                                     : isSoldOut
                                                         ? "bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed"
                                                         : "bg-white border-gray-200 hover:bg-gray-100"
-                                                }`}
-                                            aria-label={`Select ${formatDate(avail.startDate)} for ${avail.duration}`}
-                                        >
-                                            <input
-                                                type="radio"
-                                                name="startDate"
-                                                value={avail.startDate}
-                                                checked={selectedDate === avail.startDate}
-                                                onChange={() => handleDateChange(avail.startDate)}
-                                                disabled={isSoldOut}
-                                                className="hidden"
-                                                aria-checked={selectedDate === avail.startDate}
-                                            />
-                                            <div className="flex-1">
-                                                <div className="flex items-center gap-2">
-                                                    <CalendarIcon className="w-5 h-5" />
-                                                    <span className="font-medium">
-                                                        {formatDate(avail.startDate)} ({avail.duration})
-                                                    </span>
-                                                    {isSoldOut && (
-                                                        <span className="text-xs font-semibold text-red-600">Sold Out</span>
-                                                    )}
-                                                </div>
-                                                <div className="mt-2 flex flex-wrap gap-2">
-                                                    <span
-                                                        className={`text-xs font-medium px-2 py-1 rounded-full ${selectedDate === avail.startDate
+                                                    }`}
+                                                aria-label={`${isSoldOut ? 'Sold out: ' : ''}${formatDate(avail.startDate)} for ${avail.duration}`}
+                                            >
+                                                <input
+                                                    type="radio"
+                                                    name="startDate"
+                                                    value={avail.startDate}
+                                                    checked={selectedDate === avail.startDate}
+                                                    onChange={() => !isSoldOut && handleDateChange(avail.startDate)}
+                                                    disabled={isSoldOut}
+                                                    className="hidden"
+                                                    aria-checked={selectedDate === avail.startDate}
+                                                    aria-disabled={isSoldOut}
+                                                />
+                                                <div className="flex-1">
+                                                    <div className="flex items-center gap-2">
+                                                        <CalendarIcon className="w-5 h-5" />
+                                                        <span className="font-medium">
+                                                            {formatDate(avail.startDate)} ({avail.duration})
+                                                        </span>
+                                                        {isSoldOut && (
+                                                            <span className="text-xs font-semibold text-red-600">Sold Out</span>
+                                                        )}
+                                                    </div>
+                                                    <div className="mt-2 flex flex-wrap gap-2">
+                                                        <span
+                                                            className={`text-xs font-medium px-2 py-1 rounded-full ${selectedDate === avail.startDate
                                                                 ? "bg-white/20 text-white"
                                                                 : isSoldOut
                                                                     ? "bg-gray-200 text-gray-400"
                                                                     : "bg-gray-100 text-gray-700"
-                                                            }`}
-                                                    >
-                                                        Total: {avail.totalTickets}
-                                                    </span>
-                                                    <span
-                                                        className={`text-xs font-medium px-2 py-1 rounded-full ${selectedDate === avail.startDate
+                                                                }`}
+                                                        >
+                                                            Total: {avail.totalTickets}
+                                                        </span>
+                                                        <span
+                                                            className={`text-xs font-medium px-2 py-1 rounded-full ${selectedDate === avail.startDate
                                                                 ? "bg-white/20 text-white"
                                                                 : isSoldOut
                                                                     ? "bg-gray-200 text-gray-400"
                                                                     : "bg-gray-100 text-gray-700"
-                                                            }`}
-                                                    >
-                                                        Booked: {avail.bookedTickets}
-                                                    </span>
-                                                    <span
-                                                        className={`text-xs font-medium px-2 py-1 rounded-full ${isSoldOut
+                                                                }`}
+                                                        >
+                                                            Booked: {avail.bookedTickets}
+                                                        </span>
+                                                        <span
+                                                            className={`text-xs font-medium px-2 py-1 rounded-full ${isSoldOut
                                                                 ? "bg-red-100 text-red-700"
                                                                 : isLowAvailability
                                                                     ? "bg-orange-100 text-orange-700"
                                                                     : "bg-green-100 text-green-700"
-                                                            }`}
-                                                    >
-                                                        Available: {avail.availableTickets}
-                                                    </span>
-                                                </div>
-                                                <div className="mt-2">
-                                                    <div className="w-full bg-gray-200 rounded-full h-2.5">
-                                                        <div
-                                                            className={`h-2.5 rounded-full ${isSoldOut ? "bg-red-600" : isLowAvailability ? "bg-orange-600" : "bg-green-600"
                                                                 }`}
-                                                            style={{ width: `${bookedPercentage}%` }}
-                                                        ></div>
+                                                        >
+                                                            Available: {avail.availableTickets}
+                                                        </span>
                                                     </div>
-                                                    <p
-                                                        className={`text-sm font-medium mt-1 ${selectedDate === avail.startDate ? "text-white" : "text-gray-500"
-                                                            }`}
-                                                    >
-                                                        {bookedPercentage.toFixed(0)}% Booked
-                                                    </p>
+                                                    <div className="mt-2">
+                                                        <div className="w-full bg-gray-200 rounded-full h-2.5">
+                                                            <div
+                                                                className={`h-2.5 rounded-full ${isSoldOut ? "bg-red-600" : isLowAvailability ? "bg-orange-600" : "bg-green-600"
+                                                                    }`}
+                                                                style={{ width: `${bookedPercentage}%` }}
+                                                            ></div>
+                                                        </div>
+                                                        <p
+                                                            className={`text-sm font-medium mt-1 ${selectedDate === avail.startDate ? "text-white" : "text-gray-500"
+                                                                }`}
+                                                        >
+                                                            {bookedPercentage.toFixed(0)}% Booked
+                                                        </p>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            {selectedDate === avail.startDate && (
-                                                <CheckCircleIcon className="w-6 h-6 absolute top-2 right-2 text-green-400" />
-                                            )}
-                                        </label>
-                                    );
-                                })}
+                                                {selectedDate === avail.startDate && (
+                                                    <CheckCircleIcon className="w-6 h-6 absolute top-2 right-2 text-green-400" />
+                                                )}
+                                            </label>
+                                        );
+                                    })}
+                                </div>
+                                {selectedAvailability && (
+                                    <p className="text-sm text-gray-700">
+                                        <strong>You’ve selected:</strong> {formatDate(selectedDate)} for {selectedAvailability.duration}
+                                    </p>
+                                )}
                             </div>
-                            {selectedAvailability && (
-                                <p className="text-sm text-gray-700">
-                                    <strong>You’ve selected:</strong> {formatDate(selectedDate)} for {selectedAvailability.duration}
-                                </p>
-                            )}
-                        </div>
+                        ) : (
+                            <div className="bg-red-50 border-l-4 border-red-400 p-4">
+                                <div className="flex">
+                                    <div className="flex-shrink-0">
+                                        <TicketIcon className="h-5 w-5 text-red-400" aria-hidden="true" />
+                                    </div>
+                                    <div className="ml-3">
+                                        <p className="text-sm text-red-700">
+                                            This adventure is currently sold out for all available dates. Please check back later or contact us for alternative options.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        )
                     ) : (
                         <p className="text-gray-600">No availability information available.</p>
                     )}
+
                 </div>
 
                 {/* Booking Section */}
@@ -305,8 +329,8 @@ export default function BookAdventurePage() {
                                         onClick={() => handleNumTravelersChange(-1)}
                                         disabled={numTravelers === 1}
                                         className={`px-4 py-2 rounded-lg font-semibold transition-all ${numTravelers === 1
-                                                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                                                : "bg-black text-white hover:bg-gray-800 focus:ring-2 focus:ring-offset-2 focus:ring-black"
+                                            ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                            : "bg-black text-white hover:bg-gray-800 focus:ring-2 focus:ring-offset-2 focus:ring-black"
                                             }`}
                                         aria-label="Decrease number of travelers"
                                     >
@@ -337,8 +361,8 @@ export default function BookAdventurePage() {
                                         onClick={() => handleNumTravelersChange(1)}
                                         disabled={numTravelers >= (selectedAvailability?.availableTickets || Infinity)}
                                         className={`px-4 py-2 rounded-lg font-semibold transition-all ${numTravelers >= (selectedAvailability?.availableTickets || Infinity)
-                                                ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                                                : "bg-black text-white hover:bg-gray-800 focus:ring-2 focus:ring-offset-2 focus:ring-black"
+                                            ? "bg-gray-200 text-gray-400 cursor-not-allowed"
+                                            : "bg-black text-white hover:bg-gray-800 focus:ring-2 focus:ring-offset-2 focus:ring-black"
                                             }`}
                                         aria-label="Increase number of travelers"
                                     >

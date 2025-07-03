@@ -68,7 +68,7 @@ export const packagesData: TravelPackage[] = [
     inclusions: ["Houseboat Stay", "Meals", "Guide", "Transfers"],
     exclusions: ["Flights", "Alcohol"],
     availability: [
-      { startDate: "2025-11-05", duration: "4 Days", totalTickets: 20, bookedTickets: 12, availableTickets: 8 },
+      { startDate: "2025-11-05", duration: "4 Days", totalTickets: 20, bookedTickets: 20, availableTickets: 0 },
       { startDate: "2025-12-20", duration: "5 Days", totalTickets: 25, bookedTickets: 13, availableTickets: 12 },
       { startDate: "2026-01-10", duration: "4 Days", totalTickets: 20, bookedTickets: 10, availableTickets: 10 },
     ],
