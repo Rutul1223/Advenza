@@ -1,4 +1,3 @@
-// types/packages.ts
 export interface TravelPackage {
   id: number;
   image: string;
@@ -8,19 +7,22 @@ export interface TravelPackage {
   details: string;
   description: string;
   category?: string;
-  rating?: number; 
+  rating?: number;
   location?: string;
   reviewsCount?: number;
   itinerary?: string[];
   inclusions?: string[];
   exclusions?: string[];
-  availability?: string[];
+  availability?: {
+    startDate: string; // ISO date string, e.g., "2025-10-01"
+    duration: string; // Specific duration for this batch, e.g., "7 Days"
+    totalTickets: number; // Total tickets available for this batch
+    bookedTickets: number; // Tickets booked for this batch
+    availableTickets?: number; // Calculated as totalTickets - bookedTickets
+  }[];
   tags?: string[];
   mapEmbedUrl?: string;
   bookingUrl?: string;
-  totalSeats?: number;
-  bookedSeats?: number;
-  availableSeats?: number;
   readyToPickup?: string[];
 }
 
@@ -40,14 +42,15 @@ export const packagesData: TravelPackage[] = [
     itinerary: ["Day 1: Arrival & Welcome Dinner", "Day 2: Camel Safari & Cultural Night", "Day 3: Morning Ride & Departure"],
     inclusions: ["Camel Ride", "Folk Show", "2 Night Accommodation", "Meals"],
     exclusions: ["Airfare", "Travel Insurance"],
-    availability: ["October 2025", "November 2025", "December 2025"],
+    availability: [
+      { startDate: "2025-10-01", duration: "3 Days", totalTickets: 30, bookedTickets: 20, availableTickets: 10 },
+      { startDate: "2025-11-15", duration: "4 Days", totalTickets: 40, bookedTickets: 25, availableTickets: 15 },
+      { startDate: "2025-12-10", duration: "3 Days", totalTickets: 30, bookedTickets: 20, availableTickets: 10 },
+    ],
     tags: ["Adventure", "Culture", "Desert"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/rajasthan-safari",
-    totalSeats: 100,
-    bookedSeats: 75,
-    availableSeats: 25,
-    readyToPickup: ['Ahmedabad', 'Rajasthan', 'Jaisalmer']
+    readyToPickup: ["Ahmedabad", "Rajasthan", "Jaisalmer"],
   },
   {
     id: 2,
@@ -64,14 +67,15 @@ export const packagesData: TravelPackage[] = [
     itinerary: ["Day 1: Houseboat Check-in & Cruise", "Day 2: Village Tour & Local Cuisine", "Day 3: Bird Watching & Sunset View", "Day 4: Checkout & Return"],
     inclusions: ["Houseboat Stay", "Meals", "Guide", "Transfers"],
     exclusions: ["Flights", "Alcohol"],
-    availability: ["November 2025", "December 2025", "January 2026"],
+    availability: [
+      { startDate: "2025-11-05", duration: "4 Days", totalTickets: 20, bookedTickets: 12, availableTickets: 8 },
+      { startDate: "2025-12-20", duration: "5 Days", totalTickets: 25, bookedTickets: 13, availableTickets: 12 },
+      { startDate: "2026-01-10", duration: "4 Days", totalTickets: 20, bookedTickets: 10, availableTickets: 10 },
+    ],
     tags: ["Nature", "Relaxation", "Houseboat"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/kerala-backwaters",
-    totalSeats: 80,
-    bookedSeats: 60,
-    availableSeats: 20,
-    readyToPickup: ['Ahmedabad', 'Uttarakhand', 'Delhi']
+    readyToPickup: ["Ahmedabad", "Uttarakhand", "Delhi"],
   },
   {
     id: 3,
@@ -88,14 +92,15 @@ export const packagesData: TravelPackage[] = [
     itinerary: ["Day 1: Arrival & Mall Road Visit", "Day 2: Snow Sports in Solang Valley", "Day 3: Rohtang Pass", "Day 4: Local Markets", "Day 5: Departure"],
     inclusions: ["Stay", "Meals", "Ski Equipment", "Local Tours"],
     exclusions: ["Permits for Rohtang", "Travel to Manali"],
-    availability: ["December 2025", "January 2026", "February 2026"],
+    availability: [
+      { startDate: "2025-12-01", duration: "5 Days", totalTickets: 30, bookedTickets: 20, availableTickets: 10 },
+      { startDate: "2026-01-15", duration: "6 Days", totalTickets: 30, bookedTickets: 20, availableTickets: 10 },
+      { startDate: "2026-02-10", duration: "5 Days", totalTickets: 30, bookedTickets: 20, availableTickets: 10 },
+    ],
     tags: ["Adventure", "Snow", "Hills"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/manali-snow",
-    totalSeats: 90,
-    bookedSeats: 70,
-    availableSeats: 20,
-    readyToPickup: ['Ahmedabad', 'Uttarakhand', 'Delhi']
+    readyToPickup: ["Ahmedabad", "Uttarakhand", "Delhi"],
   },
   {
     id: 4,
@@ -112,14 +117,15 @@ export const packagesData: TravelPackage[] = [
     itinerary: ["Day 1: Shillong Arrival", "Day 2: Mawsmai & Arwah Caves", "Day 3: Nohkalikai Falls", "Day 4: Mawlynnong Village", "Day 5: Dawki River", "Day 6: Departure"],
     inclusions: ["Guided Tours", "Accommodation", "Transfers"],
     exclusions: ["Personal Expenses", "Meals on Travel Days"],
-    availability: ["July 2025", "August 2025", "September 2025"],
+    availability: [
+      { startDate: "2025-07-10", duration: "6 Days", totalTickets: 20, bookedTickets: 12, availableTickets: 8 },
+      { startDate: "2025-08-15", duration: "7 Days", totalTickets: 25, bookedTickets: 13, availableTickets: 12 },
+      { startDate: "2025-09-05", duration: "6 Days", totalTickets: 20, bookedTickets: 10, availableTickets: 10 },
+    ],
     tags: ["Exploration", "Waterfalls", "Caves"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/meghalaya-caves",
-    totalSeats: 70,
-    bookedSeats: 50,
-    availableSeats: 20,
-    readyToPickup: ['Ahmedabad', 'Uttarakhand', 'Delhi']
+    readyToPickup: ["Ahmedabad", "Uttarakhand", "Delhi"],
   },
   {
     id: 5,
@@ -136,20 +142,21 @@ export const packagesData: TravelPackage[] = [
     itinerary: ["Day 1: Arrival at Port Blair", "Day 2: Havelock Island", "Day 3: Neil Island", "Day 4: Ross Island", "Day 5: Departure"],
     inclusions: ["Ferry Transfers", "Beach Stays", "Water Activities"],
     exclusions: ["Scuba Equipment Charges", "Airfare"],
-    availability: ["October 2025", "November 2025", "December 2025"],
+    availability: [
+      { startDate: "2025-10-05", duration: "5 Days", totalTickets: 30, bookedTickets: 20, availableTickets: 10 },
+      { startDate: "2025-11-20", duration: "6 Days", totalTickets: 30, bookedTickets: 20, availableTickets: 10 },
+      { startDate: "2025-12-15", duration: "5 Days", totalTickets: 30, bookedTickets: 20, availableTickets: 10 },
+    ],
     tags: ["Beach", "Diving", "Island"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/andaman-hopping",
-    totalSeats: 100,
-    bookedSeats: 80,
-    availableSeats: 20,
-    readyToPickup: ['Ahmedabad', 'Uttarakhand', 'Delhi']
+    readyToPickup: ["Ahmedabad", "Uttarakhand", "Delhi"],
   },
   {
     id: 6,
     title: "Ladakh Biking Expedition",
     description: "An adrenaline-packed bike ride through high-altitude terrains.",
-    details: "Ride through the world's highest motorable roads, see monasteries, and camp near Pangong Lake.",
+    details: " Sexpedition",
     image: "https://thedreamridersgroup.com/listing/9/Explore%20Ladakh%20on%20two%20wheels,Morey%20Plains.jpg",
     duration: "8 Days",
     price: "₹22,000",
@@ -160,14 +167,15 @@ export const packagesData: TravelPackage[] = [
     itinerary: ["Day 1: Leh Acclimatization", "Day 2: Khardung La", "Day 3: Nubra Valley", "Day 4: Pangong Lake", "Day 5-7: Local Exploration", "Day 8: Departure"],
     inclusions: ["Bike", "Fuel", "Meals", "Guide", "Helmet"],
     exclusions: ["Damage Charges", "Airfare"],
-    availability: ["June 2025", "July 2025", "August 2025"],
+    availability: [
+      { startDate: "2025-06-10", duration: "8 Days", totalTickets: 40, bookedTickets: 30, availableTickets: 10 },
+      { startDate: "2025-07-15", duration: "9 Days", totalTickets: 40, bookedTickets: 30, availableTickets: 10 },
+      { startDate: "2025-08-05", duration: "8 Days", totalTickets: 40, bookedTickets: 30, availableTickets: 10 },
+    ],
     tags: ["Adventure", "Motorcycle", "High Altitude"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/ladakh-ride",
-    totalSeats: 120,
-    bookedSeats: 100,
-    availableSeats: 20,
-    readyToPickup: ['Ahmedabad', 'Uttarakhand', 'Delhi']
+    readyToPickup: ["Ahmedabad", "Uttarakhand", "Delhi"],
   },
   {
     id: 7,
@@ -184,14 +192,15 @@ export const packagesData: TravelPackage[] = [
     itinerary: ["Day 1: Plantation Walk", "Day 2: Abbey Falls", "Day 3: Local Cuisine & Return"],
     inclusions: ["Homestay", "Guide", "Breakfast"],
     exclusions: ["Lunch & Dinner", "Travel Insurance"],
-    availability: ["August 2025", "September 2025", "October 2025"],
+    availability: [
+      { startDate: "2025-08-01", duration: "3 Days", totalTickets: 20, bookedTickets: 12, availableTickets: 8 },
+      { startDate: "2025-09-10", duration: "4 Days", totalTickets: 25, bookedTickets: 13, availableTickets: 12 },
+      { startDate: "2025-10-05", duration: "3 Days", totalTickets: 20, bookedTickets: 10, availableTickets: 10 },
+    ],
     tags: ["Hills", "Coffee", "Relaxation"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/coorg-trail",
-    totalSeats: 50,
-    bookedSeats: 30,
-    availableSeats: 20,
-    readyToPickup: ['Ahmedabad', 'Banglore']
+    readyToPickup: ["Ahmedabad", "Bangalore"],
   },
   {
     id: 8,
@@ -208,14 +217,15 @@ export const packagesData: TravelPackage[] = [
     itinerary: ["Day 1: Arrival & Rafting", "Day 2: Ganga Aarti & Checkout"],
     inclusions: ["Rafting", "Camp Stay", "Meals"],
     exclusions: ["Transport to Rishikesh"],
-    availability: ["April 2025", "May 2025", "June 2025"],
+    availability: [
+      { startDate: "2025-04-10", duration: "2 Days", totalTickets: 25, bookedTickets: 15, availableTickets: 10 },
+      { startDate: "2025-05-15", duration: "3 Days", totalTickets: 25, bookedTickets: 15, availableTickets: 10 },
+      { startDate: "2025-06-05", duration: "2 Days", totalTickets: 25, bookedTickets: 15, availableTickets: 10 },
+    ],
     tags: ["Adventure", "Spiritual", "Camping"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/rishikesh-rafting",
-    totalSeats: 80,
-    bookedSeats: 60,
-    availableSeats: 20,
-    readyToPickup: ['Ahmedabad', 'Delhi']
+    readyToPickup: ["Ahmedabad", "Delhi"],
   },
   {
     id: 9,
@@ -223,7 +233,7 @@ export const packagesData: TravelPackage[] = [
     title: "Amazon Rainforest Expedition",
     description: "Explore the lush rainforest, witness wildlife, and experience the beauty of nature.",
     details: "Embark on a thrilling adventure through the Amazon rainforest, witness wildlife, and witness the beauty of nature.",
-    duration: "7 days, 6 nights",
+    duration: "7 Days",
     price: "$799",
     location: "Amazon Rainforest",
     category: "Adventure",
@@ -232,14 +242,15 @@ export const packagesData: TravelPackage[] = [
     itinerary: ["Day 1: Arrival & Camping", "Day 2-6: Rainforest Exploration", "Day 7: Departure"],
     inclusions: ["Camping", "Guide", "Meals"],
     exclusions: ["Airfare"],
-    availability: ["June 2025", "July 2025", "August 2025"],
+    availability: [
+      { startDate: "2025-06-05", duration: "7 Days", totalTickets: 30, bookedTickets: 20, availableTickets: 10 },
+      { startDate: "2025-07-10", duration: "8 Days", totalTickets: 30, bookedTickets: 20, availableTickets: 10 },
+      { startDate: "2025-08-15", duration: "7 Days", totalTickets: 30, bookedTickets: 20, availableTickets: 10 },
+    ],
     tags: ["Adventure", "Rainforest", "Camping"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/amazon-expedition",
-    totalSeats: 100,
-    bookedSeats: 80,
-    availableSeats: 20,
-    readyToPickup: ['Ahmedabad', 'Mumbai', 'Delhi']
+    readyToPickup: ["Ahmedabad", "Mumbai", "Delhi"],
   },
   {
     id: 10,
@@ -247,7 +258,7 @@ export const packagesData: TravelPackage[] = [
     description: "Discover the vibrant city of Rome, Italy, and its iconic landmarks.",
     details: "Experience the vibrant city of Rome, Italy, and its iconic landmarks, including the Colosseum, the Vatican, and the Pantheon.",
     title: "Roma City Adventure",
-    duration: "5 days, 4 nights",
+    duration: "5 Days",
     price: "$799",
     location: "Rome, Italy",
     category: "Culture",
@@ -256,14 +267,15 @@ export const packagesData: TravelPackage[] = [
     itinerary: ["Day 1: Arrival & Sightseeing", "Day 2-4: City Exploration", "Day 5: Departure"],
     inclusions: ["Transportation", "Guide", "Meals"],
     exclusions: ["Airfare"],
-    availability: ["May 2025", "June 2025", "July 2025"],
+    availability: [
+      { startDate: "2025-05-10", duration: "5 Days", totalTickets: 20, bookedTickets: 10, availableTickets: 10 },
+      { startDate: "2025-06-15", duration: "6 Days", totalTickets: 20, bookedTickets: 10, availableTickets: 10 },
+      { startDate: "2025-07-05", duration: "5 Days", totalTickets: 20, bookedTickets: 10, availableTickets: 10 },
+    ],
     tags: ["Culture", "City", "Sightseeing"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/rome-adventure",
-    totalSeats: 50,
-    bookedSeats: 30,
-    availableSeats: 20,
-    readyToPickup: ['Ahmedabad', 'Mumbai', 'Delhi']
+    readyToPickup: ["Ahmedabad", "Mumbai", "Delhi"],
   },
   {
     id: 11,
@@ -271,7 +283,7 @@ export const packagesData: TravelPackage[] = [
     description: "Experience the beauty of the Mediterranean Sea and its historical sites.",
     details: "Embark on a journey through the Mediterranean Sea and its historical sites, including the Colosseum, the Vatican, and the Pantheon.",
     title: "Historic Mediterranean Voyage",
-    duration: "5 days, 4 nights",
+    duration: "5 Days",
     price: "$1899",
     location: "Mediterranean Sea",
     category: "Culture",
@@ -280,14 +292,15 @@ export const packagesData: TravelPackage[] = [
     itinerary: ["Day 1: Arrival & Sightseeing", "Day 2-4: City Exploration", "Day 5: Departure"],
     inclusions: ["Transportation", "Guide", "Meals"],
     exclusions: ["Airfare"],
-    availability: ["May 2025", "June 2025", "July 2025"],
+    availability: [
+      { startDate: "2025-05-15", duration: "5 Days", totalTickets: 25, bookedTickets: 15, availableTickets: 10 },
+      { startDate: "2025-06-20", duration: "6 Days", totalTickets: 25, bookedTickets: 15, availableTickets: 10 },
+      { startDate: "2025-07-10", duration: "5 Days", totalTickets: 25, bookedTickets: 15, availableTickets: 10 },
+    ],
     tags: ["Culture", "City", "Sightseeing"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/mediterranean-voyage",
-    totalSeats: 60,
-    bookedSeats: 40,
-    availableSeats: 20,
-    readyToPickup: ['Ahmedabad', 'Mumbai', 'Delhi']
+    readyToPickup: ["Ahmedabad", "Mumbai", "Delhi"],
   },
   {
     id: 12,
@@ -295,7 +308,7 @@ export const packagesData: TravelPackage[] = [
     description: "Discover the natural wonders of the Amazon Rainforest.",
     details: "Embark on a thrilling adventure through the Amazon rainforest, witness wildlife, and witness the beauty of nature.",
     title: "Wildlife Safari Expedition",
-    duration: "7 days, 6 nights",
+    duration: "7 Days",
     price: "$1899",
     location: "Amazon Rainforest",
     category: "Adventure",
@@ -304,21 +317,21 @@ export const packagesData: TravelPackage[] = [
     itinerary: ["Day 1: Arrival & Camping", "Day 2-6: Rainforest Exploration", "Day 7: Departure"],
     inclusions: ["Camping", "Guide", "Meals"],
     exclusions: ["Airfare"],
-    availability: ["June 2025", "July 2025", "August 2025"],
+    availability: [
+      { startDate: "2025-06-10", duration: "7 Days", totalTickets: 30, bookedTickets: 20, availableTickets: 10 },
+      { startDate: "2025-07-15", duration: "8 Days", totalTickets: 30, bookedTickets: 20, availableTickets: 10 },
+      { startDate: "2025-08-20", duration: "7 Days", totalTickets: 30, bookedTickets: 20, availableTickets: 10 },
+    ],
     tags: ["Adventure", "Rainforest", "Camping"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/amazon-expedition",
-    totalSeats: 100,
-    bookedSeats: 80,
-    availableSeats: 20,
-    readyToPickup: ['Ahmedabad', 'Mumbai', 'Delhi']
+    readyToPickup: ["Ahmedabad", "Mumbai", "Delhi"],
   },
   {
     id: 13,
     title: "Himalayan Trek",
     description: "A 7-day thrilling trek through the majestic Himalayas.",
-    details:
-      "Embark on an unforgettable journey through the rugged terrains of the Himalayas. Discover serene monasteries, snow-covered peaks, and local cultures while staying in eco-friendly camps. Meals, guides, permits, and transportation are included.",
+    details: "Embark on an unforgettable journey through the rugged terrains of the Himalayas. Discover serene monasteries, snow-covered peaks, and local cultures while staying in eco-friendly camps. Meals, guides, permits, and transportation are included.",
     price: "₹12,500",
     duration: "7 Days",
     image: "https://www.himalayan-treks.com/wp-content/uploads/2019/01/20181024_140649_Avedis.jpg",
@@ -329,21 +342,21 @@ export const packagesData: TravelPackage[] = [
     itinerary: ["Day 1: Arrival & Camping", "Day 2-6: Trekking", "Day 7: Departure"],
     inclusions: ["Camping", "Guide", "Meals"],
     exclusions: ["Airfare"],
-    availability: ["May 2025", "June 2025", "July 2025"],
+    availability: [
+      { startDate: "2025-05-05", duration: "7 Days", totalTickets: 35, bookedTickets: 20, availableTickets: 15 },
+      { startDate: "2025-06-10", duration: "8 Days", totalTickets: 35, bookedTickets: 20, availableTickets: 15 },
+      { startDate: "2025-07-15", duration: "7 Days", totalTickets: 35, bookedTickets: 20, availableTickets: 15 },
+    ],
     tags: ["Adventure", "Himalayas", "Camping"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/himalayan-trek",
-    totalSeats: 100,
-    bookedSeats: 70,
-    availableSeats: 30,
-    readyToPickup: ['Ahmedabad', 'Mumbai', 'Delhi']
+    readyToPickup: ["Ahmedabad", "Mumbai", "Delhi"],
   },
   {
     id: 14,
     title: "Goa Beach Retreat",
     description: "Relax and enjoy the vibrant beaches of Goa.",
-    details:
-      "Unwind with golden sands, tropical breeze, and soulful sunsets. This package includes beachfront stay, water sports, yoga sessions, seafood dinners, and beach club access.",
+    details: "Unwind with golden sands, tropical breeze, and soulful sunsets. This package includes beachfront stay, water sports, yoga sessions, seafood dinners, and beach club access.",
     price: "₹8,000",
     duration: "4 Days",
     image: "https://assets.cntraveller.in/photos/65169715f1f1534fc4e0f24d/4:3/w_1640,h_1230,c_limit/W%20Goa.jpg",
@@ -354,13 +367,14 @@ export const packagesData: TravelPackage[] = [
     itinerary: ["Day 1: Arrival & Beachfront Stay", "Day 2-4: Beach Activities", "Day 5: Departure"],
     inclusions: ["Beachfront Stay", "Water Sports", "Yoga Sessions"],
     exclusions: ["Airfare"],
-    availability: ["May 2025", "June 2025", "July 2025"],
+    availability: [
+      { startDate: "2025-05-10", duration: "4 Days", totalTickets: 20, bookedTickets: 10, availableTickets: 10 },
+      { startDate: "2025-06-15", duration: "5 Days", totalTickets: 20, bookedTickets: 10, availableTickets: 10 },
+      { startDate: "2025-07-05", duration: "4 Days", totalTickets: 20, bookedTickets: 10, availableTickets: 10 },
+    ],
     tags: ["Relaxation", "Beach", "Water Sports"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/goa-beach-retreat",
-    totalSeats: 40,
-    bookedSeats: 20,
-    availableSeats: 20,
-    readyToPickup: ['Ahmedabad', 'Mumbai', 'Goa']
+    readyToPickup: ["Ahmedabad", "Mumbai", "Goa"],
   },
 ];
