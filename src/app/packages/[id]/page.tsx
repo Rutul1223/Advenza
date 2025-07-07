@@ -123,8 +123,17 @@ export default function PackageDetailsPage() {
                   <div>
                     <h3 className="text-lg font-semibold text-gray-800">Ready to Pickup</h3>
                     <ul className="mt-2 list-disc pl-5 text-blue-600 space-y-2">
-                      {pkg.readyToPickup.map((item: string, idx: number) => (
-                        <li key={idx} className="text-sm">{item}</li>
+                      {pkg.readyToPickup.map((item, idx) => (
+                        <li key={idx} className="text-sm">
+                          <span className="font-medium">{item.city}</span>
+                          <ul className="list-disc pl-5 mt-1">
+                            {item.spots.map((spot, spotIdx) => (
+                              <li key={spotIdx} className="text-sm">
+                                {spot.location} at {spot.timing}
+                              </li>
+                            ))}
+                          </ul>
+                        </li>
                       ))}
                     </ul>
                   </div>

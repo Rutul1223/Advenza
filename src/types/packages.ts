@@ -23,7 +23,13 @@ export interface TravelPackage {
   tags?: string[];
   mapEmbedUrl?: string;
   bookingUrl?: string;
-  readyToPickup?: string[];
+  readyToPickup?: {
+    city: string;
+    spots: {
+      location: string;
+      timing: string;
+    }[];
+  }[];
 }
 
 export const packagesData: TravelPackage[] = [
@@ -50,7 +56,33 @@ export const packagesData: TravelPackage[] = [
     tags: ["Adventure", "Culture", "Desert"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/rajasthan-safari",
-    readyToPickup: ["Ahmedabad", "Rajasthan", "Jaisalmer"],
+    readyToPickup: [
+      {
+        city: "Ahmedabad",
+        spots: [
+          { location: "ISKCON Temple", timing: "6:00 AM" },
+          { location: "Sabarmati Ashram", timing: "6:30 AM" },
+          { location: "Airport", timing: "5:00 AM" }
+        ]
+      },
+      {
+        city: "Rajasthan",
+        spots: [
+          { location: "Jaisalmer", timing: "6:00 AM" },
+          { location: "Jaipur", timing: "6:30 AM" },
+          { location: "Kota", timing: "5:00 AM" }
+        ]
+      },
+      {
+        city: "Jaisalmer",
+        spots: [
+          { location: "Jaisalmer", timing: "6:00 AM" },
+          { location: "Jaipur", timing: "6:30" },
+          { location: "Kota", timing: "5:00 AM" }
+        ]
+      },
+
+    ]
   },
   {
     id: 2,
@@ -75,7 +107,32 @@ export const packagesData: TravelPackage[] = [
     tags: ["Nature", "Relaxation", "Houseboat"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/kerala-backwaters",
-    readyToPickup: ["Ahmedabad", "Uttarakhand", "Delhi"],
+    readyToPickup: [
+      {
+        city: "Ahmedabad",
+        spots: [
+          { location: "ISKCON Temple", timing: "6:00 AM" },
+          { location: "Sabarmati Ashram", timing: "6:30 AM" },
+          { location: "Airport", timing: "5:00 AM" }
+        ]
+      },
+      {
+        city: "Uttarakhand",
+        spots: [
+          {location: "abc", timing: "6:00 AM" },
+          { location: "xyz", timing: "6:30 AM" },
+          { location: "pqr", timing: "5:00 AM" }
+        ]
+      },
+      {
+        city: "Delhi",
+        spots: [
+          { location: "abc", timing: "6:00 AM" },
+          { location: "xyz", timing: "6:30 AM" },
+          { location: "pqr", timing: "5:00 AM" }
+        ]
+      },
+    ]
   },
   {
     id: 3,
@@ -100,7 +157,30 @@ export const packagesData: TravelPackage[] = [
     tags: ["Adventure", "Snow", "Hills"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/manali-snow",
-    readyToPickup: ["Ahmedabad", "Uttarakhand", "Delhi"],
+    readyToPickup: [{
+        city: "Ahmedabad",
+        spots: [
+          { location: "ISKCON Temple", timing: "6:00 AM" },
+          { location: "Sabarmati Ashram", timing: "6:30 AM" },
+          { location: "Airport", timing: "5:00 AM" }
+        ]
+      },
+      {
+        city: "Uttarakhand",
+        spots: [
+          {location: "abc", timing: "6:00 AM" },
+          { location: "xyz", timing: "6:30 AM" },
+          { location: "pqr", timing: "5:00 AM" }
+        ]
+      },
+      {
+        city: "Delhi",
+        spots: [
+          { location: "abc", timing: "6:00 AM" },
+          { location: "xyz", timing: "6:30 AM" },
+          { location: "pqr", timing: "5:00 AM" }
+        ]
+      },],
   },
   {
     id: 4,
@@ -125,7 +205,30 @@ export const packagesData: TravelPackage[] = [
     tags: ["Exploration", "Waterfalls", "Caves"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/meghalaya-caves",
-    readyToPickup: ["Ahmedabad", "Uttarakhand", "Delhi"],
+    readyToPickup: [{
+        city: "Ahmedabad",
+        spots: [
+          { location: "ISKCON Temple", timing: "6:00 AM" },
+          { location: "Sabarmati Ashram", timing: "6:30 AM" },
+          { location: "Airport", timing: "5:00 AM" }
+        ]
+      },
+      {
+        city: "Uttarakhand",
+        spots: [
+          {location: "abc", timing: "6:00 AM" },
+          { location: "xyz", timing: "6:30 AM" },
+          { location: "pqr", timing: "5:00 AM" }
+        ]
+      },
+      {
+        city: "Delhi",
+        spots: [
+          { location: "abc", timing: "6:00 AM" },
+          { location: "xyz", timing: "6:30 AM" },
+          { location: "pqr", timing: "5:00 AM" }
+        ]
+      },],
   },
   {
     id: 5,
@@ -150,7 +253,30 @@ export const packagesData: TravelPackage[] = [
     tags: ["Beach", "Diving", "Island"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/andaman-hopping",
-    readyToPickup: ["Ahmedabad", "Uttarakhand", "Delhi"],
+    readyToPickup: [{
+        city: "Ahmedabad",
+        spots: [
+          { location: "ISKCON Temple", timing: "6:00 AM" },
+          { location: "Sabarmati Ashram", timing: "6:30 AM" },
+          { location: "Airport", timing: "5:00 AM" }
+        ]
+      },
+      {
+        city: "Uttarakhand",
+        spots: [
+          {location: "abc", timing: "6:00 AM" },
+          { location: "xyz", timing: "6:30 AM" },
+          { location: "pqr", timing: "5:00 AM" }
+        ]
+      },
+      {
+        city: "Delhi",
+        spots: [
+          { location: "abc", timing: "6:00 AM" },
+          { location: "xyz", timing: "6:30 AM" },
+          { location: "pqr", timing: "5:00 AM" }
+        ]
+      },],
   },
   {
     id: 6,
@@ -175,7 +301,30 @@ export const packagesData: TravelPackage[] = [
     tags: ["Adventure", "Motorcycle", "High Altitude"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/ladakh-ride",
-    readyToPickup: ["Ahmedabad", "Uttarakhand", "Delhi"],
+    readyToPickup: [{
+        city: "Ahmedabad",
+        spots: [
+          { location: "ISKCON Temple", timing: "6:00 AM" },
+          { location: "Sabarmati Ashram", timing: "6:30 AM" },
+          { location: "Airport", timing: "5:00 AM" }
+        ]
+      },
+      {
+        city: "Uttarakhand",
+        spots: [
+          {location: "abc", timing: "6:00 AM" },
+          { location: "xyz", timing: "6:30 AM" },
+          { location: "pqr", timing: "5:00 AM" }
+        ]
+      },
+      {
+        city: "Delhi",
+        spots: [
+          { location: "abc", timing: "6:00 AM" },
+          { location: "xyz", timing: "6:30 AM" },
+          { location: "pqr", timing: "5:00 AM" }
+        ]
+      },],
   },
   {
     id: 7,
@@ -200,7 +349,23 @@ export const packagesData: TravelPackage[] = [
     tags: ["Hills", "Coffee", "Relaxation"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/coorg-trail",
-    readyToPickup: ["Ahmedabad", "Bangalore"],
+    readyToPickup: [{
+        city: "Ahmedabad",
+        spots: [
+          { location: "ISKCON Temple", timing: "6:00 AM" },
+          { location: "Sabarmati Ashram", timing: "6:30 AM" },
+          { location: "Airport", timing: "5:00 AM" }
+        ]
+      },
+      {
+        city: "Bangalore",
+        spots: [
+          {location: "abc", timing: "6:00 AM" },
+          { location: "xyz", timing: "6:30 AM" },
+          { location: "pqr", timing: "5:00 AM" }
+        ]
+      },
+      ],
   },
   {
     id: 8,
@@ -225,7 +390,22 @@ export const packagesData: TravelPackage[] = [
     tags: ["Adventure", "Spiritual", "Camping"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/rishikesh-rafting",
-    readyToPickup: ["Ahmedabad", "Delhi"],
+    readyToPickup: [{
+        city: "Ahmedabad",
+        spots: [
+          { location: "ISKCON Temple", timing: "6:00 AM" },
+          { location: "Sabarmati Ashram", timing: "6:30 AM" },
+          { location: "Airport", timing: "5:00 AM" }
+        ]
+      },
+      {
+        city: "Delhi",
+        spots: [
+          {location: "abc", timing: "6:00 AM" },
+          { location: "xyz", timing: "6:30 AM" },
+          { location: "pqr", timing: "5:00 AM" }
+        ]
+      }],
   },
   {
     id: 9,
@@ -250,7 +430,24 @@ export const packagesData: TravelPackage[] = [
     tags: ["Adventure", "Rainforest", "Camping"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/amazon-expedition",
-    readyToPickup: ["Ahmedabad", "Mumbai", "Delhi"],
+    readyToPickup: [
+      {
+        city: "Delhi",
+        spots: [
+          {location: "abc", timing: "6:00 AM" },
+          { location: "xyz", timing: "6:30 AM" },
+          { location: "pqr", timing: "5:00 AM" }
+        ]
+      },
+      {
+        city: "Ahmedabad",
+        spots: [
+          { location: "ISKCON Temple", timing: "6:00 AM" },
+          { location: "Sabarmati Ashram", timing: "6:30 AM" },
+          { location: "Airport", timing: "7:00 AM" }
+        ]
+      }
+    ],
   },
   {
     id: 10,
@@ -275,7 +472,24 @@ export const packagesData: TravelPackage[] = [
     tags: ["Culture", "City", "Sightseeing"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/rome-adventure",
-    readyToPickup: ["Ahmedabad", "Mumbai", "Delhi"],
+    readyToPickup: [
+      {
+        city: "Delhi",
+        spots: [
+          {location: "abc", timing: "6:00 AM" },
+          { location: "xyz", timing: "6:30 AM" },
+          { location: "pqr", timing: "5:00 AM" }
+        ]
+      },
+      {
+        city: "Ahmedabad",
+        spots: [
+          { location: "ISKCON Temple", timing: "6:00 AM" },
+          { location: "Sabarmati Ashram", timing: "6:30 AM" },
+          { location: "Airport", timing: "5:00 AM" }
+        ]
+      }
+    ],
   },
   {
     id: 11,
@@ -300,7 +514,24 @@ export const packagesData: TravelPackage[] = [
     tags: ["Culture", "City", "Sightseeing"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/mediterranean-voyage",
-    readyToPickup: ["Ahmedabad", "Mumbai", "Delhi"],
+    readyToPickup: [
+      {
+        city: "Delhi",
+        spots: [
+          {location: "abc", timing: "6:00 AM" },
+          { location: "xyz", timing: "6:30 AM" },
+          { location: "pqr", timing: "5:00 AM" }
+        ]
+      },
+      {
+        city: "Ahmedabad",
+        spots: [
+          { location: "ISKCON Temple", timing: "6:00 AM" },
+          { location: "Sabarmati Ashram", timing: "6:30 AM" },
+          { location: "Airport", timing: "5:00 AM" }
+        ]
+      }
+    ],
   },
   {
     id: 12,
@@ -325,7 +556,24 @@ export const packagesData: TravelPackage[] = [
     tags: ["Adventure", "Rainforest", "Camping"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/amazon-expedition",
-    readyToPickup: ["Ahmedabad", "Mumbai", "Delhi"],
+    readyToPickup: [
+      {
+        city: "Delhi",
+        spots: [
+          {location: "abc", timing: "6:00 AM" },
+          { location: "xyz", timing: "6:30 AM" },
+          { location: "pqr", timing: "5:00 AM" }
+        ]
+      },
+      {
+        city: "Ahmedabad",
+        spots: [
+          { location: "ISKCON Temple", timing: "6:00 AM" },
+          { location: "Sabarmati Ashram", timing: "6:30 AM" },
+          { location: "Airport", timing: "5:00 AM" }
+        ]
+      }
+    ],
   },
   {
     id: 13,
@@ -350,7 +598,24 @@ export const packagesData: TravelPackage[] = [
     tags: ["Adventure", "Himalayas", "Camping"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/himalayan-trek",
-    readyToPickup: ["Ahmedabad", "Mumbai", "Delhi"],
+    readyToPickup: [
+      {
+        city: "Delhi",
+        spots: [
+          {location: "abc", timing: "6:00 AM" },
+          { location: "xyz", timing: "6:30 AM" },
+          { location: "pqr", timing: "5:00 AM" }
+        ]
+      },
+      {
+        city: "Ahmedabad",
+        spots: [
+          { location: "ISKCON Temple", timing: "6:00 AM" },
+          { location: "Sabarmati Ashram", timing: "6:30 AM" },
+          { location: "Airport", timing: "5:00 AM" }
+        ]
+      }
+    ],
   },
   {
     id: 14,
@@ -375,6 +640,23 @@ export const packagesData: TravelPackage[] = [
     tags: ["Relaxation", "Beach", "Water Sports"],
     mapEmbedUrl: "https://maps.google.com/...",
     bookingUrl: "https://yourwebsite.com/checkout/goa-beach-retreat",
-    readyToPickup: ["Ahmedabad", "Mumbai", "Goa"],
+    readyToPickup: [
+      {
+        city: "Delhi",
+        spots: [
+          {location: "abc", timing: "6:00 AM" },
+          { location: "xyz", timing: "6:30 AM - 7:30 AM" },
+          { location: "pqr", timing: "5:00 AM - 6:00 AM" }
+        ]
+      },
+      {
+        city: "Ahmedabad",
+        spots: [
+          { location: "ISKCON Temple", timing: "6:00 AM" },
+          { location: "Sabarmati Ashram", timing: "6:30 AM" },
+          { location: "Airport", timing: "5:00 AM" }
+        ]
+      }
+    ],
   },
 ];
