@@ -1,5 +1,6 @@
 import React from "react";
 import Image from "next/image";
+import { CurrencyRupeeIcon } from "@heroicons/react/24/solid";
 
 interface PackageCardProps {
   image: string;
@@ -35,7 +36,7 @@ const PackageCard: React.FC<PackageCardProps> = ({
         <div className="bg-black bg-opacity-50 backdrop-blur-sm p-4 rounded-lg">
           <h3 className="font-bold text-lg">{title}</h3>
           <p className="text-sm">{duration}</p>
-          <p className="text-sm text-green-300 font-semibold">{price}</p>
+          <p className="text-sm text-green-300 font-semibold"><CurrencyRupeeIcon className="w-5 h-5" />{price}</p>
         </div>
       </div>
     </div>

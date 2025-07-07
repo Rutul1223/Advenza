@@ -105,7 +105,7 @@ const Slide = ({ pkg, index, current, handleSlideClick }: SlideProps) => {
                 className="text-sm text-green-100 font-semibold"
                 style={{ textShadow: "0 2px 4px rgba(0, 0, 0, 0.5)" }}
               >
-                {pkg.price}
+                ₹{pkg.price}
               </p>
             </article>
           </div>
@@ -159,7 +159,7 @@ export default function TripsSection() {
   };
 
   return (
-    <section id="trips" className="py-30 px-4 md:px-16 bg-white">
+    <section id="trips" className="py-30 px-4 md:px-16 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10">
           <div className="flex flex-col gap-2">
@@ -182,9 +182,10 @@ export default function TripsSection() {
         </div>
 
         <div
-          className="relative w-[20rem] h-[18rem] mx-auto"
+          className="relative mx-auto w-full" style={{ height: '18rem' }}
           aria-labelledby={`carousel-heading-${id}`}
         >
+          <div className="relative h-full overflow-hidden">
           <Link href={`/packages/${packagesData[current].id}`}>
             <ul
               className="absolute flex mx-[-1rem] transition-transform duration-1000 ease-in-out"
@@ -204,6 +205,7 @@ export default function TripsSection() {
               ))}
             </ul>
           </Link>
+          </div>
 
           <div className="absolute flex justify-center w-full top-[calc(100%+1rem)]">
             <CarouselControl
