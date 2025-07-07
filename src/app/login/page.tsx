@@ -1,14 +1,22 @@
 'use client';
 
 import LoginForm from '@/components/LoginForm';
+import Image from 'next/image';
 
 export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-zinc-100 px-4 py-10">
       <div className="w-full max-w-5xl h-[600px] bg-white rounded-[20px] shadow-2xl overflow-hidden flex flex-col lg:flex-row border border-zinc-200 relative">
         {/* Left Page - Image */}
-        <div className="w-full lg:w-1/2 h-full bg-cover bg-center relative"
-          style={{ backgroundImage: `url('https://images.pexels.com/photos/914128/pexels-photo-914128.jpeg?cs=srgb&dl=pexels-saikat-ghosh-323099-914128.jpg&fm=jpg')` }}>
+        <div className="w-full lg:w-1/2 h-full relative">
+          <Image
+            src="https://images.pexels.com/photos/914128/pexels-photo-914128.jpeg"
+            alt="Travel background"
+            fill
+            className="object-cover"
+            quality={80}
+            priority
+          />
           <div className="absolute inset-0 bg-black/20" />
         </div>
 

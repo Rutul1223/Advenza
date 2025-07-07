@@ -1,5 +1,5 @@
 "use client";
-import { packagesData } from "@/types/packages";
+import { packagesData, TravelPackage } from "@/types/packages";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
@@ -10,14 +10,16 @@ import {
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
 import RecommendedPackages from "@/components/Recommended";
+import Image from "next/image";
 
 export default function PackageDetailsPage() {
-  const { id } = useParams();
-  const [pkg, setPkg] = useState<any>(null);
+  const params = useParams();
+  const id = Array.isArray(params.id) ? params.id[0] : params.id;
+  const [pkg, setPkg] = useState<TravelPackage | null>(null);
 
   useEffect(() => {
     const found = packagesData.find((p) => p.id === parseInt(id as string));
-    setPkg(found);
+    setPkg(found || null);
   }, [id]);
 
   if (!pkg) {
@@ -64,10 +66,13 @@ export default function PackageDetailsPage() {
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Image */}
           <div className="lg:w-1/2">
-            <img
+            <Image
               src={pkg.image}
               alt={pkg.title}
+              width={800}
+              height={500}
               className="rounded-2xl shadow-lg w-full h-[400px] md:h-[500px] object-cover transform hover:scale-[1.02] transition-transform duration-300"
+              priority
             />
           </div>
 
@@ -81,7 +86,7 @@ export default function PackageDetailsPage() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {pkg.itinerary?.length > 0 && (
+                {pkg.itinerary && pkg.itinerary.length > 0 && (
                   <div>
                     <h3 className="text-lg font-semibold text-gray-800">Itinerary</h3>
                     <ul className="mt-2 list-disc pl-5 text-gray-600 space-y-2">
@@ -92,7 +97,7 @@ export default function PackageDetailsPage() {
                   </div>
                 )}
 
-                {pkg.inclusions?.length > 0 && (
+                {pkg.inclusions && pkg.inclusions.length > 0 && (
                   <div>
                     <h3 className="text-lg font-semibold text-gray-800">Inclusions</h3>
                     <ul className="mt-2 list-disc pl-5 text-green-600 space-y-2">
@@ -103,7 +108,7 @@ export default function PackageDetailsPage() {
                   </div>
                 )}
 
-                {pkg.exclusions?.length > 0 && (
+                {pkg.exclusions && pkg.exclusions.length > 0 && (
                   <div>
                     <h3 className="text-lg font-semibold text-gray-800">Exclusions</h3>
                     <ul className="mt-2 list-disc pl-5 text-red-600 space-y-2">
@@ -114,7 +119,7 @@ export default function PackageDetailsPage() {
                   </div>
                 )}
 
-                {pkg.readyToPickup?.length > 0 && (
+                {pkg.readyToPickup && pkg.readyToPickup.length > 0 && (
                   <div>
                     <h3 className="text-lg font-semibold text-gray-800">Ready to Pickup</h3>
                     <ul className="mt-2 list-disc pl-5 text-blue-600 space-y-2">
@@ -147,7 +152,7 @@ export default function PackageDetailsPage() {
         <div className="mt-12">
           <RecommendedPackages
             currentId={pkg.id}
-            category={pkg.category}
+            category={pkg.category || "default-category"}
             allPackages={packagesData}
           />
         </div>

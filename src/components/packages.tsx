@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Navbar from "./Navbar";
 import { packagesData } from "@/types/packages";
+import Image from "next/image";
 
 export default function Packages() {
   return (
@@ -18,7 +19,7 @@ export default function Packages() {
               key={pkg.id}
               className="border rounded-xl shadow hover:shadow-lg transition bg-white"
             >
-              <img
+              <Image
                 src={pkg.image}
                 alt={pkg.title}
                 className="w-full h-48 object-cover rounded-t-xl"

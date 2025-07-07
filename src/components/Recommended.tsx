@@ -1,11 +1,13 @@
 "use client";
 
+import { TravelPackage } from "@/types/packages";
+import Image from "next/image";
 import Link from "next/link";
 
 interface RecommendedPackagesProps {
   currentId: number;
   category: string;
-  allPackages: any[];
+  allPackages: TravelPackage[];
 }
 
 export default function RecommendedPackages({
@@ -31,7 +33,7 @@ export default function RecommendedPackages({
             key={rec.id}
             className="block bg-white border border-gray-200 rounded-xl shadow hover:shadow-lg transition overflow-hidden"
           >
-            <img
+            <Image
               src={rec.image}
               alt={rec.title}
               className="w-full h-48 object-cover"

@@ -34,7 +34,7 @@ export default function AboutSection() {
             <div>
               <h4 className="font-semibold text-sm mb-1">Customer-Centric</h4>
               <p className="text-sm text-gray-600">
-                Being customer-centric is the compass that guides our travel services. We prioritize our customers' needs.
+                Being customer-centric is the compass that guides our travel services. We prioritize our customers needs.
               </p>
             </div>
           </div>

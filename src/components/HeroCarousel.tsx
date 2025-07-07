@@ -1,11 +1,12 @@
 'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import Navbar from './Navbar';
+import Image from 'next/image';
 
 const images = [
-  'https://freerangestock.com/sample/155394/a-green-hills-with-mountains-in-the-background.jpg',
-  'https://www.polo-safari.in/wp-content/uploads/2020/03/img_2176d0091220f9999df75102b948d43c_1530262398556_processed_original.jpg?%3E',
-  'https://clubmahindra.gumlet.io/blog/images/Matheran-during-Monsoon-resized.jpg?w=800&dpr=1.0',
+  '/myImages/carousel1.jpg',
+  '/myImages/carousel2.jpg',
+  '/myImages/carousel3.avif',
 ];
 
 export default function HeroCarousel() {
@@ -68,10 +69,12 @@ export default function HeroCarousel() {
       onMouseLeave={handleMouseLeave}
     >
       {images.map((src, index) => (
-        <img
+        <Image
           key={index}
           src={src}
-          alt=""
+          alt={`Travel destination ${index + 1}`}
+          fill
+          priority={index === 0}
           className="absolute inset-0 w-full h-full object-cover transition-opacity duration-800 ease-in-out"
           style={{ opacity: index === current ? 1 : 0 }}
         />

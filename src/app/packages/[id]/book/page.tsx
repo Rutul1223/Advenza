@@ -2,36 +2,55 @@
 
 import { useState, useEffect } from "react";
 import { useParams, useSearchParams } from "next/navigation";
-import { packagesData } from "@/types/packages";
+import { packagesData, TravelPackage } from "@/types/packages";
 import { MapPinIcon, CalendarIcon, TicketIcon, CheckCircleIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
+
+interface Availability {
+    startDate: string;
+    duration: string;
+    totalTickets: number;
+    bookedTickets: number;
+    availableTickets?: number;
+}
+
+interface Traveler {
+    name: string;
+    phone: string;
+}
+
+interface MainContact {
+    name: string;
+    email: string;
+    phone: string;
+}
 
 export default function BookAdventurePage() {
     const { id } = useParams();
     const searchParams = useSearchParams();
-    const [pkg, setPkg] = useState<any>(null);
+    const [pkg, setPkg] = useState<TravelPackage | null>(null);
     const [submitted, setSubmitted] = useState(false);
     const [numTravelers, setNumTravelers] = useState(1);
-    const [mainContact, setMainContact] = useState({ name: "", email: "", phone: "" });
-    const [travelers, setTravelers] = useState([{ name: "", phone: "" }]);
+    const [mainContact, setMainContact] = useState<MainContact>({ name: "", email: "", phone: "" });
+    const [travelers, setTravelers] = useState<Traveler[]>([{ name: "", phone: "" }]);
     const [message, setMessage] = useState("");
     const [selectedDate, setSelectedDate] = useState<string>("");
-    const [selectedAvailability, setSelectedAvailability] = useState<any>(null);
+    const [selectedAvailability, setSelectedAvailability] = useState<Availability | null>(null);
 
     useEffect(() => {
         const found = packagesData.find((p) => p.id === parseInt(id as string));
-        setPkg(found);
-        if (found?.availability && found.availability?.length > 0) {
+        setPkg(found || null);
+        if (found?.availability && found.availability.length > 0) {
             const startDateFromQuery = searchParams.get("startDate");
-            const availableDates = found.availability.filter(avail => avail.availableTickets > 0);
+            const availableDates = found.availability.filter(avail => avail.availableTickets && avail.availableTickets > 0);
             if (availableDates.length > 0) {
-                const initialDate = startDateFromQuery && availableDates.some(avail => avail.startDate === startDateFromQuery)
+                const initialDate = startDateFromQuery && availableDates.some(avail =>
+                    (avail.availableTickets ?? 0) > 0)
                     ? startDateFromQuery
                     : availableDates[0].startDate;
                 setSelectedDate(initialDate);
-                setSelectedAvailability(found.availability.find(avail => avail.startDate === initialDate));
+                setSelectedAvailability(found.availability.find(avail => avail.startDate === initialDate) || null);
             } else {
-                // All dates are sold out
                 setSelectedDate("");
                 setSelectedAvailability(null);
             }
@@ -48,7 +67,7 @@ export default function BookAdventurePage() {
         });
     }, [numTravelers]);
 
-    const handleTravelerChange = (idx: number, field: string, value: string) => {
+    const handleTravelerChange = (idx: number, field: keyof Traveler, value: string) => {
         setTravelers((prev) => {
             const updated = [...prev];
             updated[idx] = { ...updated[idx], [field]: value };
@@ -57,16 +76,21 @@ export default function BookAdventurePage() {
     };
 
     const handleDateChange = (newDate: string) => {
+        if (!pkg) return;
+
         setSelectedDate(newDate);
-        const newAvailability = pkg.availability.find((avail: any) => avail.startDate === newDate);
+        const newAvailability = pkg.availability?.find((avail) => avail.startDate === newDate) || null;
         setSelectedAvailability(newAvailability);
-        if (numTravelers > (newAvailability?.availableTickets || 1)) {
-            setNumTravelers(newAvailability?.availableTickets || 1);
+        if (newAvailability && numTravelers > (newAvailability.availableTickets ?? 1)) {
+            setNumTravelers(newAvailability.availableTickets ?? 1);
         }
     };
 
     const handleNumTravelersChange = (delta: number) => {
-        const newValue = Math.max(1, Math.min(numTravelers + delta, selectedAvailability?.availableTickets || 1));
+        const newValue = Math.max(1, Math.min(
+            numTravelers + delta,
+            selectedAvailability?.availableTickets ?? 1  // Add nullish coalescing
+        ));
         setNumTravelers(newValue);
     };
 
@@ -123,13 +147,13 @@ export default function BookAdventurePage() {
                 {/* Date Selection Section */}
                 <div className="space-y-6">
                     <h2 className="text-2xl font-bold text-gray-800">Select Your Travel Date</h2>
-                    {pkg.availability?.length > 0 ? (
-                        pkg.availability.some(avail => avail.availableTickets > 0) ? (
+                    {pkg.availability && pkg.availability.length > 0 ? (
+                        pkg.availability.some(avail => avail.availableTickets && avail.availableTickets > 0) ? (
                             <div className="space-y-4">
                                 <div className="grid gap-3">
-                                    {pkg.availability.map((avail: any) => {
-                                        const isLowAvailability = avail.availableTickets <= 5 && avail.availableTickets > 0;
-                                        const isSoldOut = avail.availableTickets === 0;
+                                    {pkg.availability.map((avail) => {
+                                        const isLowAvailability = (avail.availableTickets ?? 0) <= 5 && (avail.availableTickets ?? 0) > 0;;
+                                        const isSoldOut = (avail.availableTickets ?? 0) === 0;
                                         const bookedPercentage = (avail.bookedTickets / avail.totalTickets) * 100;
                                         return (
                                             <label
@@ -220,7 +244,7 @@ export default function BookAdventurePage() {
                                 </div>
                                 {selectedAvailability && (
                                     <p className="text-sm text-gray-700">
-                                        <strong>You’ve selected:</strong> {formatDate(selectedDate)} for {selectedAvailability.duration}
+                                        <strong>You have selected:</strong> {formatDate(selectedDate)} for {selectedAvailability.duration}
                                     </p>
                                 )}
                             </div>
@@ -241,7 +265,6 @@ export default function BookAdventurePage() {
                     ) : (
                         <p className="text-gray-600">No availability information available.</p>
                     )}
-
                 </div>
 
                 {/* Booking Section */}
@@ -341,7 +364,7 @@ export default function BookAdventurePage() {
                                             id="numTravelers"
                                             type="number"
                                             min="1"
-                                            max={selectedAvailability?.availableTickets || undefined}
+                                            max={selectedAvailability?.availableTickets ?? undefined}
                                             value={numTravelers}
                                             onChange={(e) => {
                                                 const value = parseInt(e.target.value);
@@ -359,7 +382,7 @@ export default function BookAdventurePage() {
                                     <button
                                         type="button"
                                         onClick={() => handleNumTravelersChange(1)}
-                                        disabled={numTravelers >= (selectedAvailability?.availableTickets || Infinity)}
+                                        disabled={numTravelers >= (selectedAvailability?.availableTickets ?? Infinity)}
                                         className={`px-4 py-2 rounded-lg font-semibold transition-all ${numTravelers >= (selectedAvailability?.availableTickets || Infinity)
                                             ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                                             : "bg-black text-white hover:bg-gray-800 focus:ring-2 focus:ring-offset-2 focus:ring-black"
@@ -371,7 +394,7 @@ export default function BookAdventurePage() {
                                 </div>
                                 {selectedAvailability && (
                                     <p className="text-xs text-gray-500 mt-1">
-                                        {selectedAvailability.availableTickets - numTravelers} tickets remaining
+                                        {(selectedAvailability?.availableTickets ?? 0) - numTravelers} tickets remaining
                                     </p>
                                 )}
                             </div>

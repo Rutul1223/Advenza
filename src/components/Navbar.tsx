@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import {
   motion,
   AnimatePresence,
@@ -58,10 +58,14 @@ export default function Navbar({
   return (
     <motion.nav
       ref={ref}
-      className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-[90%] sm:w-[80%] md:w-[60%] lg:w-[50%] rounded-full px-6 py-3 shadow-md border border-gray-200"
-      animate={{
-        backdropFilter: "blur(10px)",
+      className={`fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-[90%] sm:w-[80%] md:w-[60%] lg:w-[50%] rounded-full px-6 py-3 shadow-md border border-gray-200 ${
+        visible ? "backdrop-blur bg-black/20" : ""
+      }`}
+      style={{
         WebkitBackdropFilter: "blur(10px)",
+        backdropFilter: "blur(10px)",
+      }}
+      animate={{
         backgroundColor: visible ? "rgba(0, 0, 0, 0.2)" : "transparent",
       }}
       transition={{

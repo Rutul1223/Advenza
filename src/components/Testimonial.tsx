@@ -1,4 +1,5 @@
 'use client';
+import Image from "next/image";
 import React from "react";
 
 const testimonials = [
@@ -36,7 +37,7 @@ export default function TestimonialSection() {
               from travelers
             </h1>
           </div>
-          <img
+          <Image
             src="https://cdn.prod.website-files.com/675fdb38b60bc5242af8cd90/675fdb38b60bc5242af8cdc1_double-quotes.png"
             alt="quotes"
             className="w-10 h-10 mt-6 md:mt-0"
@@ -52,7 +53,7 @@ export default function TestimonialSection() {
             >
               <p className="text-gray-700 text-sm mb-4">{t.text}</p>
               <div className="flex items-center gap-4 mt-auto pt-4">
-                <img
+                <Image
                   src={t.image}
                   alt={t.name}
                   className="w-10 h-10 rounded-full object-cover"
