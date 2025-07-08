@@ -54,6 +54,14 @@ export default function LoginForm() {
           Register your trail
         </Link>
       </div>
+      <div className="text-center text-sm text-gray-600 mt-4">
+        <Link
+        href="/"
+        className="text-black hover:text-zinc-800 transition-colors"
+      >
+        ← Back to Homepage
+      </Link>
+      </div>
     </form>
   );
 }

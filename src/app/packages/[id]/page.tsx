@@ -126,13 +126,6 @@ export default function PackageDetailsPage() {
                       {pkg.readyToPickup.map((item, idx) => (
                         <li key={idx} className="text-sm">
                           <span className="font-medium">{item.city}</span>
-                          <ul className="list-disc pl-5 mt-1">
-                            {item.spots.map((spot, spotIdx) => (
-                              <li key={spotIdx} className="text-sm">
-                                {spot.location} at {spot.timing}
-                              </li>
-                            ))}
-                          </ul>
                         </li>
                       ))}
                     </ul>

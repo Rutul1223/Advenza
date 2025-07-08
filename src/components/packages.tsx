@@ -28,7 +28,7 @@ export default function Packages() {
                 <h2 className="text-xl font-semibold">{pkg.title}</h2>
                 <div className="flex justify-between text-sm text-gray-500">
                   <span>{pkg.duration}</span>
-                  <span>{pkg.price}</span>
+                  <span>₹{pkg.price}</span>
                 </div>
                 <Link href={`/packages/${pkg.id}`}>
                   <button className="mt-4 w-full bg-black text-white py-2 rounded-md hover:bg-gray-800 transition">
