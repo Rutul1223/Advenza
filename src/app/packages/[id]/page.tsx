@@ -9,7 +9,7 @@ import {
   MapPinIcon,
 } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import RecommendedPackages from "@/components/Recommended";
+import RecommendedPackages from "@/components/pages/recommended/Recommended";
 import Image from "next/image";
 
 export default function PackageDetailsPage() {

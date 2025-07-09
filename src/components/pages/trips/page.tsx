@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useRef, useId, useEffect } from "react";
-import { packagesData } from "../types/packages";
+import { packagesData } from "../../../types/packages";
 import { IconArrowNarrowRight } from "@tabler/icons-react";
 import Link from "next/link";
 

@@ -1,4 +1,4 @@
-import Packages from '@/components/packages'
+import Packages from '@/components/packages/page'
 import React from 'react'
 
 const packages = () => {

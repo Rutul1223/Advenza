@@ -1,6 +1,6 @@
 'use client';
 import Link from "next/link";
-import Navbar from "./Navbar";
+import Navbar from "../../components/layouts/navbar/page";
 import { packagesData } from "@/types/packages";
 import Image from "next/image";
 import { useState, useMemo } from "react";
