@@ -98,11 +98,11 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="font-sans bg-gray-900 text-gray-100 adventure-theme">
+    <div className="font-sans bg-gray-900 text-white adventure-theme">
       {/* Adventure-themed cursor */}
-      <div className="adventure-cursor fixed w-8 h-8 rounded-full border-2 border-amber-400 pointer-events-none z-50 mix-blend-difference transform -translate-x-1/2 -translate-y-1/2 hidden md:block"></div>
+      <div className="adventure-cursor fixed w-8 h-8 rounded-full border-2 border-white pointer-events-none z-50 mix-blend-difference transform -translate-x-1/2 -translate-y-1/2 hidden md:block"></div>
       
-      {/* Star background */}
+      {/* Star background (unchanged) */}
       <div className="fixed inset-0 overflow-hidden z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-purple-900 to-gray-900 opacity-90"></div>
         {[...Array(100)].map((_, i) => (
@@ -121,7 +121,7 @@ export default function Home() {
         ))}
       </div>
 
-      {/* Mountain layers for parallax */}
+      {/* Mountain layers for parallax (unchanged) */}
       <div className="fixed inset-0 overflow-hidden z-0">
         <div className="mountain-layer absolute bottom-0 left-0 w-full h-1/3 bg-gradient-to-t from-gray-800 to-transparent"></div>
         <div className="mountain-layer absolute bottom-0 left-0 w-full h-1/4 bg-gradient-to-t from-gray-700 to-transparent"></div>
@@ -138,7 +138,7 @@ export default function Home() {
           </div>
           
           <div ref={addToRefs} className="adventure-section adventure-bg-element relative">
-            <div className="absolute -inset-4 bg-gradient-to-r from-amber-900/20 to-purple-900/20 rounded-xl -z-10"></div>
+            <div className="absolute -inset-4 bg-gray-900/50 backdrop-blur-sm rounded-xl border border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.2)] -z-10"></div>
             <AboutSection />
           </div>
           
@@ -147,7 +147,7 @@ export default function Home() {
           </div>
           
           <div ref={addToRefs} className="adventure-section adventure-bg-element relative">
-            <div className="absolute -inset-4 bg-gradient-to-br from-amber-900/20 via-gray-900/50 to-purple-900/20 rounded-xl -z-10"></div>
+            <div className="absolute -inset-4 bg-gray-900/50 backdrop-blur-sm rounded-xl border border-white/20 shadow-[0_0_15px_rgba(255,255,255,0.2)] -z-10"></div>
             <TestimonialSection />
           </div>
           
@@ -165,7 +165,7 @@ export default function Home() {
           {[...Array(5)].map((_, i) => (
             <div 
               key={i}
-              className="absolute inset-0 rounded-full bg-amber-500 filter blur-sm animate-pulse"
+              className="absolute inset-0 rounded-full bg-white filter blur-sm animate-pulse"
               style={{
                 animationDelay: `${i * 0.2}s`,
                 transform: `scale(${1 - i * 0.1})`,
@@ -173,7 +173,7 @@ export default function Home() {
               }}
             ></div>
           ))}
-          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-gray-700 rounded-t-full"></div>
+          <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-gray-900 rounded-t-full"></div>
         </div>
       </div>
     </div>
