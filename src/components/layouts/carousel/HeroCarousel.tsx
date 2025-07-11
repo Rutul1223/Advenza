@@ -1,226 +1,195 @@
-'use client';
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Image from 'next/image';
+"use client";
+import React, { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-// Register ScrollTrigger plugin
-if (typeof window !== 'undefined') {
+// Register GSAP plugins
+if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
 }
 
-const images = [
-  '/myImages/carousel1.jpg',
-  '/myImages/carousel2.jpg',
-  '/myImages/carousel3.avif',
-];
-
-export default function HeroCarousel() {
-  const [current, setCurrent] = useState(0);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-  const carouselRef = useRef<HTMLDivElement>(null);
-  const imageRefs = useRef<(HTMLDivElement | null)[]>([]);
+export default function HeroVideo() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const videoContainerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
-  const prevButtonRef = useRef<HTMLButtonElement>(null);
-  const nextButtonRef = useRef<HTMLButtonElement>(null);
-  const dotsRef = useRef<(HTMLButtonElement | null)[]>([]);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
-  // GSAP-powered slide transition
-  const transitionSlide = useCallback((newIndex: number) => {
-    const currentImage = imageRefs.current[current];
-    const nextImage = imageRefs.current[newIndex];
-
-    if (!currentImage || !nextImage) return;
-
-    gsap.killTweensOf([currentImage, nextImage]);
-
-    gsap.timeline()
-      .to(currentImage, {
-        opacity: 0,
-        duration: 1,
-        ease: "power2.inOut"
-      })
-      .fromTo(nextImage,
-        { opacity: 0 },
-        { 
-          opacity: 1,
-          duration: 1.5,
-          ease: "power2.inOut"
-        },
-        0
-      );
-
-    setCurrent(newIndex);
-  }, [current]);
-
-  const next = useCallback(() => {
-    transitionSlide((current + 1) % images.length);
-  }, [current, transitionSlide]);
-
-  const prev = useCallback(() => {
-    transitionSlide((current - 1 + images.length) % images.length);
-  }, [current, transitionSlide]);
-
-  // GSAP animations initialization
   useEffect(() => {
-    const currentImageRefs = imageRefs.current;
-    
-    // Set initial states
-    gsap.set(currentImageRefs, { opacity: 0 });
-    if (currentImageRefs[current]) {
-      gsap.set(currentImageRefs[current], { opacity: 1 });
-    }
-    
-    // Text animation
-    if (textRef.current) {
-      gsap.from(textRef.current, {
-        y: 50,
-        opacity: 0,
-        duration: 1.5,
-        delay: 0.5,
-        ease: "power3.out"
-      });
-    }
+    if (!sectionRef.current || !videoContainerRef.current || !textRef.current) return;
 
-    // Controls animation
-    const controls = [prevButtonRef.current, nextButtonRef.current, ...dotsRef.current].filter(Boolean);
-    if (controls.length > 0) {
-      gsap.from(controls, {
-        y: 30,
-        opacity: 0,
+    // GSAP animation for section entrance
+    gsap.fromTo(
+      sectionRef.current,
+      { autoAlpha: 0, y: 50 },
+      {
+        autoAlpha: 1,
+        y: 0,
         duration: 1,
-        delay: 1,
-        ease: "back.out(1.7)",
-        stagger: 0.1
-      });
-    }
-
-    // Parallax effect
-    if (carouselRef.current) {
-      gsap.to(carouselRef.current, {
-        y: 100,
+        ease: "power3.out",
         scrollTrigger: {
-          trigger: carouselRef.current,
-          start: "top top",
-          end: "bottom top",
-          scrub: true
-        }
-      });
-    }
-
-    return () => {
-      gsap.killTweensOf(currentImageRefs);
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
-  }, [current]);
-
-  // Auto-scroll effect
-  useEffect(() => {
-    const startAutoScroll = () => {
-      intervalRef.current = setInterval(() => {
-        next();
-      }, 5000);
-    };
-
-    startAutoScroll();
-
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
+          trigger: sectionRef.current,
+          start: "top 75%",
+          toggleActions: "play none none none",
+        },
       }
-    };
-  }, [next]);
+    );
 
-  // Pause on hover
-  const handleMouseEnter = useCallback(() => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-    }
-    const controls = [prevButtonRef.current, nextButtonRef.current, ...dotsRef.current].filter(Boolean);
-    if (controls.length > 0) {
-      gsap.to(controls, {
-        opacity: 1,
-        duration: 0.3
+    // GSAP animation for text
+    gsap.from(textRef.current, {
+      y: 50,
+      opacity: 0,
+      duration: 1.5,
+      delay: 0.5,
+      ease: "power3.out",
+    });
+
+    // GSAP hover effect for video container
+    videoContainerRef.current.addEventListener("mouseenter", () => {
+      gsap.to(videoContainerRef.current, {
+        scale: 1.02,
+        boxShadow: "0 0 20px rgba(255, 255, 255, 0.3)",
+        duration: 0.3,
+        ease: "power2.out",
       });
-    }
+    });
+    videoContainerRef.current.addEventListener("mouseleave", () => {
+      gsap.to(videoContainerRef.current, {
+        scale: 1,
+        boxShadow: "0 0 15px rgba(255, 255, 255, 0.2)",
+        duration: 0.3,
+        ease: "power2.out",
+      });
+    });
+
+    // Parallax effect for video
+    gsap.to(videoContainerRef.current, {
+      y: 100,
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+      },
+    });
+
+    return () => {
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+    };
   }, []);
 
-  const handleMouseLeave = useCallback(() => {
-    intervalRef.current = setInterval(() => {
-      next();
-    }, 5000);
-  }, [next]);
+  const togglePlay = () => {
+    if (videoRef.current) {
+      if (videoRef.current.paused) {
+        videoRef.current.play();
+      } else {
+        videoRef.current.pause();
+      }
+    }
+  };
 
   return (
-    <div
-      ref={carouselRef}
-      className="relative w-full h-[80vh] overflow-hidden"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+    <section
+      ref={sectionRef}
+      className="relative w-full h-[80vh] overflow-hidden bg-transparent z-10"
     >
-      {images.map((src, index) => (
-        <div
-          key={index}
-          ref={(el) => {imageRefs.current[index] = el}}
-          className="absolute inset-0 w-full h-full"
+      <div
+        ref={videoContainerRef}
+        className="relative w-full h-full rounded-2xl overflow-hidden shadow-[0_0_15px_rgba(255,255,255,0.2)] border border-white/20"
+      >
+        {/* Background Video */}
+        <video
+          ref={videoRef}
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="w-full h-full object-cover"
         >
-          <Image
-            src={src}
-            alt={`Travel destination ${index + 1}`}
-            fill
-            priority={index === 0}
-            className="object-cover"
+          <source
+            src="https://cdn.prod.website-files.com/675fdb38b60bc5242af8cd90/675fdb38b60bc5242af8cdf0_6981302-sd_960_540_25fps-transcode.mp4"
+            type="video/mp4"
           />
-        </div>
-      ))}
+          <source
+            src="https://cdn.prod.website-files.com/675fdb38b60bc5242af8cd90/675fdb38b60bc5242af8cdf0_6981302-sd_960_540_25fps-transcode.webm"
+            type="video/webm"
+          />
+        </video>
 
-      <div className="absolute inset-0 bg-black/40" />
-      
-      <div ref={textRef} className="absolute inset-0 z-20 flex flex-col justify-center items-center text-center text-white px-4">
-        <div className="px-5 py-2 rounded-full font-semibold mb-6 text-white bg-black/20 backdrop-blur-md border border-amber-400/20">
-          The Best Place to Start Your Adventure
-        </div>
+        {/* Overlay */}
+        <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" />
 
-        <h1 className="max-w-3xl text-3xl sm:text-5xl md:text-6xl leading-tight font-light">
-          Embark on{' '}
-          <span className="italic font-serif font-semibold text-amber-300">Journey</span>
-          <br />
-          not <span className="italic font-serif">just</span> destinations
-          <br />
-          with <span className="italic font-serif text-amber-300">our trips.</span>
-        </h1>
-      </div>
-
-      {/* Controls */}
-      <div className="absolute inset-0 z-20">
-        <button
-          ref={prevButtonRef}
-          onClick={prev}
-          className="absolute left-6 top-1/2 transform -translate-y-1/2 text-white text-3xl w-12 h-12 flex items-center justify-center rounded-full bg-black/30 hover:bg-amber-500/80 transition-all duration-300 backdrop-blur-sm"
+        {/* Text and SVG */}
+        <div
+          ref={textRef}
+          className="absolute inset-0 z-20 flex flex-col justify-center items-center text-center text-white px-4"
         >
-          ‹
-        </button>
-        <button
-          ref={nextButtonRef}
-          onClick={next}
-          className="absolute right-6 top-1/2 transform -translate-y-1/2 text-white text-3xl w-12 h-12 flex items-center justify-center rounded-full bg-black/30 hover:bg-amber-500/80 transition-all duration-300 backdrop-blur-sm"
-        >
-          ›
-        </button>
-
-        <div className="absolute bottom-8 inset-x-0 flex justify-center gap-3">
-          {images.map((_, i) => (
-            <button
-              key={i}
-              ref={(el) => {dotsRef.current[i] = el}}
-              className={`w-3 h-3 rounded-full cursor-pointer transition-all duration-300 ${
-                current === i ? 'bg-amber-400 scale-125' : 'bg-gray-500/80'
-              }`}
-              onClick={() => transitionSlide(i)}
+          <svg
+            className="w-12 h-12 text-white mb-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
             />
-          ))}
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+            />
+          </svg>
+          <div className="px-5 py-2 rounded-full font-semibold text-gray-200 bg-gray-900/50 backdrop-blur-md border border-white/20 mb-6">
+            The Best Place to Start Your Adventure
+          </div>
+          <h1
+            className="max-w-3xl text-3xl sm:text-5xl md:text-6xl leading-tight font-light"
+            style={{ textShadow: "0 2px 4px rgba(0, 0, 0, 0.7)" }}
+          >
+            Embark on{" "}
+            <span className="italic font-serif font-semibold text-gray-400">
+              Journey
+            </span>
+            <br />
+            not <span className="italic font-serif">just</span> destinations
+            <br />
+            with <span className="italic font-serif text-gray-400">our trips.</span>
+          </h1>
+        </div>
+
+        {/* Play/Pause Toggle */}
+        <div className="absolute bottom-8 right-8 z-20">
+          <button
+            onClick={togglePlay}
+            className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-900/50 backdrop-blur-sm border border-white/20 text-white hover:bg-white hover:text-gray-900 transition duration-300"
+          >
+            <svg
+              className="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+              />
+            </svg>
+          </button>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

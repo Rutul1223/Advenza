@@ -17,6 +17,7 @@ const nextConfig: NextConfig = {
       "www.himalayan-treks.com",
       "assets.cntraveller.in",
       "images.pexels.com",
+      "randomuser.me",
     ],
   },
 };

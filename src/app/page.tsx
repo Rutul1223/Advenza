@@ -5,7 +5,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import AboutSection from "@/components/pages/about/page";
 import ContactSection from "@/components/pages/contact/page";
 import TestimonialSection from "@/components/pages/testimonial/page";
-import HeroCarousel from "@/components/layouts/carousel/HeroCarousel";
+import HeroVideo from "@/components/layouts/carousel/HeroCarousel";
 import Navbar from "@/components/layouts/navbar/page";
 import TripsSection from "@/components/pages/trips/page";
 import VideoSection from "@/components/pages/video/page";
@@ -130,7 +130,7 @@ export default function Home() {
 
       <div ref={mainRef} className="relative z-10">
         <Navbar />
-        <HeroCarousel />
+        <HeroVideo />
 
         <main className="px-6 sm:px-8 md:px-12 lg:px-24 space-y-24 max-w-7xl mx-auto mt-[-4vh]">
           <div ref={addToRefs} className="adventure-section adventure-bg-element">

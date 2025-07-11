@@ -20,7 +20,7 @@ const navItems = [
 ];
 
 export default function Navbar({
-  textColor = "text-amber-400",
+  textColor = "text-white", // Changed to white
 }: {
   textColor?: string;
 }) {
@@ -74,7 +74,7 @@ export default function Navbar({
     gsap.to(navRef.current, {
       backgroundColor: "rgba(0, 0, 0, 0.7)",
       backdropFilter: "blur(10px)",
-      borderColor: "rgba(255, 191, 0, 0.2)",
+      borderColor: "rgba(255, 255, 255, 0.2)", // Changed to white
       paddingTop: "0.5rem",
       paddingBottom: "0.5rem",
       scrollTrigger: {
@@ -123,7 +123,7 @@ export default function Navbar({
   return (
     <motion.nav
       ref={navRef}
-      className={`fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-[90%] sm:w-[80%] md:w-[60%] lg:w-[50%] rounded-full px-6 py-3 shadow-lg border border-amber-400/20`}
+      className={`fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-[90%] sm:w-[80%] md:w-[60%] lg:w-[50%] rounded-full px-6 py-3 shadow-lg border border-white/20`} // Changed to white
       style={{
         WebkitBackdropFilter: "blur(10px)",
         backdropFilter: "blur(10px)",
@@ -134,7 +134,7 @@ export default function Navbar({
         <Link
           ref={logoRef}
           href="/"
-          className={`text-2xl italic font-serif tracking-wide ${textColor} drop-shadow-[0_0_5px_rgba(255,191,0,0.7)]`}
+          className={`text-2xl italic font-serif tracking-wide ${textColor} drop-shadow-[0_0_5px_rgba(255,255,255,0.7)]`} // Changed to white
         >
           Advenza
         </Link>
@@ -153,7 +153,7 @@ export default function Navbar({
                 }}
                 href={item.link}
                 onClick={(e) => handleNavClick(e, item.link)}
-                className={`relative px-3 py-2 transition duration-300 ${textColor} hover:text-white`}
+                className={`relative px-3 py-2 transition duration-300 ${textColor} hover:text-gray-200`} // Changed hover to gray-200
                 onMouseEnter={() => {
                   setHovered(idx);
                   if (menuItemsRef.current[idx]) {
@@ -176,7 +176,7 @@ export default function Navbar({
                 {hovered === idx && (
                   <motion.div
                     layoutId="hovered"
-                    className="absolute inset-0 rounded-full bg-amber-400/20"
+                    className="absolute inset-0 rounded-full bg-white/20" // Changed to white
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ type: "spring", stiffness: 200, damping: 20 }}
@@ -188,7 +188,7 @@ export default function Navbar({
           </div>
           <Link
             href="/login"
-            className="px-4 py-2 rounded-md bg-amber-500 text-gray-900 text-sm font-semibold hover:bg-amber-400 transition hover:shadow-[0_0_10px_rgba(255,191,0,0.7)]"
+            className="px-4 py-2 rounded-md bg-white text-gray-900 text-sm font-semibold hover:bg-gray-200 transition hover:shadow-[0_0_10px_rgba(255,255,255,0.7)]" // Changed to white
           >
             Book Now
           </Link>
@@ -198,7 +198,7 @@ export default function Navbar({
         <div className="lg:hidden">
           <button
             onClick={toggleMenu}
-            className={`p-1 rounded-full ${textColor} hover:bg-amber-400/20 transition`}
+            className={`p-1 rounded-full ${textColor} hover:bg-white/20 transition`} // Changed to white
           >
             {isOpen ? (
               <IconX className="w-6 h-6" />
@@ -209,7 +209,7 @@ export default function Navbar({
           <AnimatePresence>
             {isOpen && (
               <motion.div
-                className="mobile-menu absolute inset-x-0 top-[60px] z-50 flex flex-col items-start gap-3 rounded-lg bg-gray-900/95 backdrop-blur-md border border-amber-400/20 px-4 py-6 mx-auto max-w-[90%] sm:max-w-[80%] shadow-xl"
+                className="mobile-menu absolute inset-x-0 top-[60px] z-50 flex flex-col items-start gap-3 rounded-lg bg-gray-900/95 backdrop-blur-md border border-white/20 px-4 py-6 mx-auto max-w-[90%] sm:max-w-[80%] shadow-xl" // Changed to white
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
@@ -219,7 +219,7 @@ export default function Navbar({
                   <a
                     key={idx}
                     href={item.link}
-                    className={`${textColor} text-base font-medium w-full py-2 transition duration-300 hover:text-white`}
+                    className={`${textColor} text-base font-medium w-full py-2 transition duration-300 hover:text-gray-200`} // Changed hover to gray-200
                     onClick={(e) => {
                       handleNavClick(e, item.link);
                       toggleMenu();
@@ -230,7 +230,7 @@ export default function Navbar({
                 ))}
                 <Link
                   href="/login"
-                  className="px-4 py-2 rounded-md bg-amber-500 text-gray-900 text-base font-semibold w-full text-center hover:bg-amber-400 transition mt-2"
+                  className="px-4 py-2 rounded-md bg-white text-gray-900 text-base font-semibold w-full text-center hover:bg-gray-200 transition mt-2" // Changed to white
                 >
                   Book Now
                 </Link>
