@@ -10,6 +10,7 @@ import Navbar from "@/components/layouts/navbar/page";
 import TripsSection from "@/components/pages/trips/page";
 import VideoSection from "@/components/pages/video/page";
 import Footer from "@/components/layouts/footer/page";
+import BackgroundBubbles from '@/components/bubbles/bubbles';
 
 // Register GSAP plugins
 if (typeof window !== 'undefined') {
@@ -105,20 +106,7 @@ export default function Home() {
       {/* Star background (unchanged) */}
       <div className="fixed inset-0 overflow-hidden z-0">
         <div className="absolute inset-0 bg-gradient-to-b from-gray-900 via-purple-900 to-gray-900 opacity-90"></div>
-        {[...Array(100)].map((_, i) => (
-          <div 
-            key={i}
-            className="absolute bg-white rounded-full animate-pulse"
-            style={{
-              width: `${Math.random() * 3}px`,
-              height: `${Math.random() * 3}px`,
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-              opacity: Math.random(),
-              animationDuration: `${2 + Math.random() * 3}s`
-            }}
-          ></div>
-        ))}
+        <BackgroundBubbles />
       </div>
 
       {/* Mountain layers for parallax (unchanged) */}

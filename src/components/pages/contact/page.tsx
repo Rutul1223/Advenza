@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -9,56 +9,27 @@ if (typeof window !== "undefined") {
 }
 
 export default function ContactSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const formContainerRef = useRef<HTMLDivElement>(null);
+  const [form, setForm] = useState({ name: '', email: '', contact: '' });
+  const [submitted, setSubmitted] = useState(false);
 
-  useEffect(() => {
-    if (!sectionRef.current || !formContainerRef.current) return;
-
-    // GSAP animation for section entrance
-    gsap.fromTo(
-      sectionRef.current,
-      { autoAlpha: 0, y: 50 },
-      {
-        autoAlpha: 1,
-        y: 0,
-        duration: 1,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 75%",
-          toggleActions: "play none none none",
-        },
-      }
-    );
-
-    // GSAP hover effect for form container
-    formContainerRef.current.addEventListener("mouseenter", () => {
-      gsap.to(formContainerRef.current, {
-        scale: 1.02,
-        boxShadow: "0 0 20px rgba(255, 255, 255, 0.3)",
-        duration: 0.3,
-        ease: "power2.out",
-      });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const res = await fetch('/api/subscriber', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(form)
     });
-    formContainerRef.current.addEventListener("mouseleave", () => {
-      gsap.to(formContainerRef.current, {
-        scale: 1,
-        boxShadow: "0 0 15px rgba(255, 255, 255, 0.2)",
-        duration: 0.3,
-        ease: "power2.out",
-      });
-    });
-
-    return () => {
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
-    };
-  }, []);
+    if (res.ok) {
+      setSubmitted(true);
+    }
+  };
 
   return (
     <section
       id="contact"
-      ref={sectionRef}
       className="py-20 px-4 bg-transparent relative z-10"
     >
       {/* Heading */}
@@ -92,8 +63,8 @@ export default function ContactSection() {
       </div>
 
       {/* Form */}
-      <div
-        ref={formContainerRef}
+      <form
+        onSubmit={handleSubmit}
         className="max-w-2xl mx-auto bg-gray-900/50 backdrop-blur-sm p-8 rounded-2xl shadow-[0_0_15px_rgba(255,255,255,0.2)] border border-white/20"
       >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -103,6 +74,9 @@ export default function ContactSection() {
             </label>
             <input
               type="text"
+              name="name"
+              value={form.name}
+              onChange={handleChange}
               placeholder="Enter your name"
               className="p-3 bg-gray-900/80 border border-white/20 rounded-full focus:outline-none focus:border-white text-white placeholder-gray-400"
             />
@@ -113,6 +87,9 @@ export default function ContactSection() {
             </label>
             <input
               type="tel"
+              name="contact"
+              value={form.contact}
+              onChange={handleChange}
               placeholder="Enter phone number"
               className="p-3 bg-gray-900/80 border border-white/20 rounded-full focus:outline-none focus:border-white text-white placeholder-gray-400"
             />
@@ -123,6 +100,9 @@ export default function ContactSection() {
             </label>
             <input
               type="email"
+              name="email"
+              value={form.email}
+              onChange={handleChange}
               placeholder="Enter your email"
               className="p-3 bg-gray-900/80 border border-white/20 rounded-full focus:outline-none focus:border-white text-white placeholder-gray-400"
             />
@@ -134,9 +114,10 @@ export default function ContactSection() {
             >
               Subscribe Now
             </button>
+            {submitted && <p className="text-green-500">Thank you!</p>}
           </div>
         </div>
-      </div>
+      </form>
     </section>
   );
 }
