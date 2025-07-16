@@ -14,6 +14,7 @@
     "@nextui-org/button": "^2.2.9",
     "@nextui-org/card": "^2.2.9",
     "@nextui-org/image": "^2.2.5",
+    "@prisma/client": "^6.12.0",
     "@tabler/icons-react": "^3.34.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -36,6 +37,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.4",
+    "prisma": "^6.12.0",
     "tailwindcss": "^4.1.10",
     "tw-animate-css": "^1.3.4",
     "typescript": "^5"
