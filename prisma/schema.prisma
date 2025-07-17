@@ -28,5 +28,6 @@ model User {
   email     String    @unique
   contact   String
   password  String
+  type      String   @default("user")
   createdAt DateTime  @default(now())
 }

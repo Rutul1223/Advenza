@@ -7,6 +7,7 @@ export interface TravelPackage {
   details: string;
   description: string;
   category?: string;
+  status: 'active' | 'inactive';
   rating?: number;
   location?: string;
   reviewsCount?: number;
@@ -30,7 +31,28 @@ export interface TravelPackage {
       timing: string;
     }[];
   }[];
-}
+};
+export interface Booking {
+  id: number;
+  packageId: number;
+  packageTitle: string;
+  customerName: string;
+  customerEmail: string;
+  travelDate: string;
+  travelers: number;
+  amount: number;
+  status: 'pending' | 'confirmed' | 'cancelled' | 'completed';
+  createdAt: string;
+};
+
+export interface Customer {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  totalBookings: number;
+  lastBookingDate: string | null;
+};
 
 export const packagesData: TravelPackage[] = [
   {
@@ -43,6 +65,7 @@ export const packagesData: TravelPackage[] = [
     price: "9,500",
     location: "Jaisalmer, Rajasthan",
     category: "Desert",
+    status: 'active',
     rating: 4.6,
     reviewsCount: 210,
     itinerary: ["Day 1: Arrival & Welcome Dinner", "Day 2: Camel Safari & Cultural Night", "Day 3: Morning Ride & Departure"],
@@ -94,6 +117,7 @@ export const packagesData: TravelPackage[] = [
     price: "10,500",
     location: "Alleppey, Kerala",
     category: "Backwater",
+    status: 'active',
     rating: 4.8,
     reviewsCount: 185,
     itinerary: ["Day 1: Houseboat Check-in & Cruise", "Day 2: Village Tour & Local Cuisine", "Day 3: Bird Watching & Sunset View", "Day 4: Checkout & Return"],
@@ -144,6 +168,7 @@ export const packagesData: TravelPackage[] = [
     price: "11,000",
     location: "Manali, Himachal Pradesh",
     category: "Snow",
+    status: 'active',
     rating: 4.7,
     reviewsCount: 152,
     itinerary: ["Day 1: Arrival & Mall Road Visit", "Day 2: Snow Sports in Solang Valley", "Day 3: Rohtang Pass", "Day 4: Local Markets", "Day 5: Departure"],
@@ -192,6 +217,7 @@ export const packagesData: TravelPackage[] = [
     price: "13,200",
     location: "Cherrapunji, Meghalaya",
     category: "Cave",
+    status: 'active',
     rating: 4.5,
     reviewsCount: 98,
     itinerary: ["Day 1: Shillong Arrival", "Day 2: Mawsmai & Arwah Caves", "Day 3: Nohkalikai Falls", "Day 4: Mawlynnong Village", "Day 5: Dawki River", "Day 6: Departure"],
@@ -240,6 +266,7 @@ export const packagesData: TravelPackage[] = [
     price: "18,000",
     location: "Port Blair, Andaman & Nicobar",
     category: "Beach",
+    status: 'active',
     rating: 4.9,
     reviewsCount: 204,
     itinerary: ["Day 1: Arrival at Port Blair", "Day 2: Havelock Island", "Day 3: Neil Island", "Day 4: Ross Island", "Day 5: Departure"],
@@ -288,6 +315,7 @@ export const packagesData: TravelPackage[] = [
     price: "22,000",
     location: "Leh-Ladakh",
     category: "Bike Ride",
+    status: 'active',
     rating: 4.9,
     reviewsCount: 233,
     itinerary: ["Day 1: Leh Acclimatization", "Day 2: Khardung La", "Day 3: Nubra Valley", "Day 4: Pangong Lake", "Day 5-7: Local Exploration", "Day 8: Departure"],
@@ -336,6 +364,7 @@ export const packagesData: TravelPackage[] = [
     price: "9,000",
     location: "Coorg, Karnataka",
     category: "Nature",
+    status: 'active',
     rating: 4.3,
     reviewsCount: 121,
     itinerary: ["Day 1: Plantation Walk", "Day 2: Abbey Falls", "Day 3: Local Cuisine & Return"],
@@ -377,6 +406,7 @@ export const packagesData: TravelPackage[] = [
     price: "7,500",
     location: "Rishikesh, Uttarakhand",
     category: "Adventure",
+    status: 'active',
     rating: 4.6,
     reviewsCount: 169,
     itinerary: ["Day 1: Arrival & Rafting", "Day 2: Ganga Aarti & Checkout"],
@@ -417,6 +447,7 @@ export const packagesData: TravelPackage[] = [
     price: "799",
     location: "Amazon Rainforest",
     category: "Adventure",
+    status: 'active',
     rating: 4.8,
     reviewsCount: 123,
     itinerary: ["Day 1: Arrival & Camping", "Day 2-6: Rainforest Exploration", "Day 7: Departure"],
@@ -459,6 +490,7 @@ export const packagesData: TravelPackage[] = [
     price: "799",
     location: "Rome, Italy",
     category: "Culture",
+    status: 'inactive',
     rating: 4.7,
     reviewsCount: 78,
     itinerary: ["Day 1: Arrival & Sightseeing", "Day 2-4: City Exploration", "Day 5: Departure"],
@@ -501,6 +533,7 @@ export const packagesData: TravelPackage[] = [
     price: "1899",
     location: "Mediterranean Sea",
     category: "Culture",
+    status: 'active',
     rating: 4.9,
     reviewsCount: 102,
     itinerary: ["Day 1: Arrival & Sightseeing", "Day 2-4: City Exploration", "Day 5: Departure"],
@@ -543,6 +576,7 @@ export const packagesData: TravelPackage[] = [
     price: "1899",
     location: "Amazon Rainforest",
     category: "Adventure",
+    status: 'active',
     rating: 4.8,
     reviewsCount: 123,
     itinerary: ["Day 1: Arrival & Camping", "Day 2-6: Rainforest Exploration", "Day 7: Departure"],
@@ -585,6 +619,7 @@ export const packagesData: TravelPackage[] = [
     image: "https://www.himalayan-treks.com/wp-content/uploads/2019/01/20181024_140649_Avedis.jpg",
     location: "Himalayas",
     category: "Adventure",
+    status: 'active',
     rating: 4.9,
     reviewsCount: 78,
     itinerary: ["Day 1: Arrival & Camping", "Day 2-6: Trekking", "Day 7: Departure"],
@@ -627,6 +662,7 @@ export const packagesData: TravelPackage[] = [
     image: "https://assets.cntraveller.in/photos/65169715f1f1534fc4e0f24d/4:3/w_1640,h_1230,c_limit/W%20Goa.jpg",
     location: "Goa",
     category: "Beach",
+    status: 'active',
     rating: 4.7,
     reviewsCount: 56,
     itinerary: ["Day 1: Arrival & Beachfront Stay", "Day 2-4: Beach Activities", "Day 5: Departure"],
