@@ -1,52 +1,59 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@/generated/prisma';
+// src/app/api/auth/check/route.ts
+import { NextRequest, NextResponse } from "next/server";
+import { PrismaClient } from "@/generated/prisma";
 
 const prisma = new PrismaClient();
 
-interface SessionCheckResponse {
-  user?: { name: string; email: string };
-  error?: string;
-}
-
 export async function GET(req: NextRequest) {
   try {
-    // Retrieve session token from cookie
-    const sessionToken = req.cookies.get('session')?.value;
-    if (!sessionToken) {
+    // Extract session cookie
+    const cookies = req.headers.get("cookie");
+    if (!cookies) {
+      console.log("No cookies found in request");
       return NextResponse.json(
-        { error: 'No session token provided' } as SessionCheckResponse,
+        { error: "No cookies provided" },
         { status: 401 }
       );
     }
 
-    // Validate session token
+    const sessionToken = cookies
+      .split("; ")
+      .find((row) => row.startsWith("session="))
+      ?.split("=")[1];
+
+    if (!sessionToken) {
+      console.log("Session cookie not found");
+      return NextResponse.json(
+        { error: "Session cookie not found" },
+        { status: 401 }
+      );
+    }
+
+    // Find session in database
     const session = await prisma.session.findFirst({
-      where: { token: sessionToken },
+      where: { token: sessionToken, expiresAt: { gt: new Date() } },
       include: { user: true },
     });
 
-    if (!session || !session.user) {
+    if (!session) {
+      console.log("Session not found or expired");
       return NextResponse.json(
-        { error: 'Invalid or expired session' } as SessionCheckResponse,
+        { error: "Invalid or expired session" },
         { status: 401 }
       );
     }
 
-    return NextResponse.json(
-      {
-        user: { name: session.user.name, email: session.user.email },
-      } as SessionCheckResponse,
-      { status: 200 }
-    );
-  } catch (error: any) {
-    console.error('Session check error:', {
-      message: error.message,
-      stack: error.stack,
+    // Return user data including type
+    return NextResponse.json({
+      user: {
+        name: session.user.name,
+        email: session.user.email,
+        type: session.user.type,
+      },
     });
-    return NextResponse.json(
-      { error: 'Internal server error' } as SessionCheckResponse,
-      { status: 500 }
-    );
+  } catch (error) {
+    console.error("Session check error:", error);
+    return NextResponse.json({ error: "Server error" }, { status: 500 });
   } finally {
     await prisma.$disconnect();
   }

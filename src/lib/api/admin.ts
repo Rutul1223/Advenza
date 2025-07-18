@@ -5,26 +5,37 @@ const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3
 
 export const signOut = async (): Promise<void> => {
   try {
-    await fetch(`${API_BASE_URL}/api/admin/logout`, {
+    const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
+    const response = await fetch(`${API_BASE_URL}/api/logout`, {
       method: 'POST',
       credentials: 'include',
     });
+    if (!response.ok) {
+      const errorText = await response.text();
+      throw new Error(`Failed to sign out: ${response.status} ${errorText}`);
+    }
   } catch (error) {
     console.error('Error signing out:', error);
+    throw error; // Let the caller handle the error
   }
 };
 
+// src/lib/api/admin.ts
 export const getDashboardStats = async (): Promise<{
   totalPackages: number;
   activeBookings: number;
   totalCustomers: number;
   revenue: number;
 }> => {
+  const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
+  console.log('Fetching dashboard stats from:', `${API_BASE_URL}/api/admin/dashboard`); // Debugging
   const response = await fetch(`${API_BASE_URL}/api/admin/dashboard`, {
+    method: 'GET', // Explicitly specify GET
     credentials: 'include',
   });
   if (!response.ok) {
     const errorText = await response.text();
+    console.error('Dashboard fetch error:', response.status, errorText); // Debugging
     throw new Error(`Failed to fetch dashboard stats: ${response.status} ${errorText}`);
   }
   const data = await response.json();

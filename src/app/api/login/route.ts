@@ -1,3 +1,4 @@
+// src/app/api/login/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { PrismaClient } from '@/generated/prisma';
 import bcrypt from 'bcryptjs';
@@ -31,14 +32,17 @@ export async function POST(req: NextRequest) {
     await prisma.session.create({
       data: {
         token: sessionToken,
-        userId: user.id, // Now an Int, matching User.id
+        userId: user.id,
         expiresAt,
       },
     });
 
     // Set session cookie
     const response = NextResponse.json(
-      { message: 'Login successful', user: { name: user.name, email: user.email } },
+      {
+        message: 'Login successful',
+        user: { name: user.name, email: user.email, type: user.type }, // Include type
+      },
       { status: 200 }
     );
     response.cookies.set('session', sessionToken, {

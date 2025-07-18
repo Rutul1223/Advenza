@@ -1,12 +1,13 @@
 // components/admin/Sidebar.tsx
 'use client';
 
+import { useAuth } from '@/context/AuthContext';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { signOut } from '@/lib/api/admin';
 
 const Sidebar = () => {
   const pathname = usePathname();
+  const {logout} = useAuth();
 
   const navItems = [
     { name: 'Dashboard', href: '/admin', icon: 'M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6' },
@@ -45,7 +46,7 @@ const Sidebar = () => {
       </nav>
       <div className="absolute bottom-0 w-64 p-4">
         <button
-          onClick={() => signOut()}
+          onClick={logout}
           className="flex items-center w-full px-4 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white rounded-md"
         >
           <svg

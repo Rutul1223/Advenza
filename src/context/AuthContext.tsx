@@ -3,10 +3,9 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
-// Define the shape of the auth context
 interface AuthContextType {
   isLoggedIn: boolean;
-  user: { name: string; email: string } | null;
+  user: { name: string; email: string; type?: string } | null;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
 }
@@ -15,21 +14,23 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState<{ name: string; email: string } | null>(null);
+  const [user, setUser] = useState<{ name: string; email: string; type?: string } | null>(null);
   const router = useRouter();
 
-  // Check for existing session on mount (e.g., check localStorage or cookies)
   useEffect(() => {
     const checkSession = async () => {
       try {
-        // Replace with your actual session check (e.g., validate token with API)
         const response = await fetch('/api/auth/check', {
-          credentials: 'include', // Include cookies if using session-based auth
+          credentials: 'include',
         });
         if (response.ok) {
           const data = await response.json();
           setIsLoggedIn(true);
           setUser(data.user);
+          if (data.user.type === 'admin') {
+            console.log('Redirecting admin to /admin'); // Debugging
+            router.push('/admin');
+          }
         } else {
           setIsLoggedIn(false);
           setUser(null);
@@ -41,7 +42,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
     };
     checkSession();
-  }, []);
+  }, [router]);
 
   const login = async (email: string, password: string) => {
     try {
@@ -49,13 +50,18 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
-        credentials: 'include', // Include cookies for session
+        credentials: 'include',
       });
       const data = await response.json();
       if (response.ok) {
         setIsLoggedIn(true);
         setUser(data.user);
-        router.push('/'); // Redirect to home after login
+        if (data.user.type === 'admin') {
+          console.log('Redirecting admin to /admin after login'); // Debugging
+          router.push('/admin');
+        } else {
+          router.push('/');
+        }
       } else {
         throw new Error(data.error || 'Login failed');
       }
@@ -67,7 +73,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const logout = async () => {
     try {
-      // Call logout API to clear server-side session
       await fetch('/api/logout', {
         method: 'POST',
         credentials: 'include',
