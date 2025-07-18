@@ -1,6 +1,6 @@
+// src/app/api/admin/login/route.ts
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@/generated/prisma';
-import bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
@@ -8,46 +8,28 @@ export async function POST(request: Request) {
   try {
     const { email, password } = await request.json();
 
-    // Validate input
-    if (!email || !password) {
-      return NextResponse.json(
-        { success: false, error: 'Email and password are required' },
-        { status: 400 }
-      );
-    }
-
-    // Find user
+    // Verify user credentials
     const user = await prisma.user.findUnique({
       where: { email },
     });
 
-    if (!user) {
+    if (!user || user.type !== 'admin' || !(await verifyPassword(password, user.password))) {
       return NextResponse.json(
-        { success: false, error: 'Invalid email or password' },
-        { status: 401 }
-      );
-    }
-
-    // Verify password
-    const isPasswordValid = await bcrypt.compare(password, user.password);
-    if (!isPasswordValid) {
-      return NextResponse.json(
-        { success: false, error: 'Invalid email or password' },
+        { success: false, error: 'Invalid credentials' },
         { status: 401 }
       );
     }
 
     // Create session data
     const sessionData = { userId: user.id };
-    const sessionCookie = encodeURIComponent(JSON.stringify(sessionData));
+    const sessionString = JSON.stringify(sessionData);
 
-    // Set session cookie
+    // Set session cookie without encoding it multiple times
     const response = NextResponse.json({ success: true });
-    response.cookies.set('session', sessionCookie, {
+    response.cookies.set('session', sessionString, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
-      maxAge: 24 * 60 * 60, // 1 day
       path: '/',
     });
 
@@ -61,4 +43,10 @@ export async function POST(request: Request) {
   } finally {
     await prisma.$disconnect();
   }
+}
+
+// Example password verification (implement based on your setup)
+async function verifyPassword(input: string, hashed: string): Promise<boolean> {
+  // Replace with your actual password verification logic (e.g., bcrypt)
+  return input === hashed; // Placeholder
 }

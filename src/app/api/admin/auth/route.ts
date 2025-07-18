@@ -1,3 +1,4 @@
+// src/app/api/admin/auth/route.ts
 import { NextResponse } from 'next/server';
 import { PrismaClient } from '@/generated/prisma';
 
@@ -28,10 +29,14 @@ export async function GET(request: Request) {
       );
     }
 
-    // Decode and parse session data
+    // Decode the session cookie, handling potential double-encoding
     let sessionData;
     try {
-      const decodedSession = decodeURIComponent(sessionCookie);
+      let decodedSession = decodeURIComponent(sessionCookie);
+      // Attempt to decode again if still encoded
+      if (decodedSession.startsWith('%')) {
+        decodedSession = decodeURIComponent(decodedSession);
+      }
       console.log('Decoded session:', decodedSession); // Debugging
       sessionData = JSON.parse(decodedSession);
     } catch (parseError) {

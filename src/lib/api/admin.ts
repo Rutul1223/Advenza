@@ -56,7 +56,7 @@ export const getDashboardStats = async (): Promise<{
   totalCustomers: number;
   revenue: number;
 }> => {
-  const response = await fetch(`${API_BASE_URL}/admin/dashboard`, {
+  const response = await fetch(`${API_BASE_URL}/api/admin/dashboard`, {
     credentials: 'include',
   });
   if (!response.ok) {
