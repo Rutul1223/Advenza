@@ -2,42 +2,6 @@ import { TravelPackage, Booking, Customer } from '@/types/packages';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
 
-export const checkAdminAuth = async (): Promise<boolean> => {
-  try {
-    const url = `${API_BASE_URL}/api/admin/auth`;
-    console.log('Fetching auth at:', url); // Debugging
-    const response = await fetch(url, {
-      credentials: 'include',
-    });
-    const data = await response.json();
-    return response.ok && data.authenticated;
-  } catch (error) {
-    console.error('Error checking admin auth:', error);
-    return false;
-  }
-};
-
-export const adminLogin = async (email: string, password: string): Promise<boolean> => {
-  try {
-    const response = await fetch(`${API_BASE_URL}/api/admin/login`, {
-      method: 'POST',
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ email, password }),
-    });
-
-    const data = await response.json();
-    if (!response.ok) {
-      throw new Error(data.error || 'Invalid credentials');
-    }
-    return data.success === true;
-  } catch (error) {
-    console.error('Error logging in:', error);
-    throw error;
-  }
-};
 
 export const signOut = async (): Promise<void> => {
   try {

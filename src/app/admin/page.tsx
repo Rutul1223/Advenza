@@ -3,7 +3,7 @@
 
 import { useEffect, useState } from 'react';
 import { getDashboardStats } from '@/lib/api/admin';
-import StatCard from '@/components/admin/StatCard';
+import StatCard from '@/components/adminLayouts/StatCard';
 
 export default function AdminDashboard() {
   const [stats, setStats] = useState({

@@ -1,28 +1,13 @@
 // app/admin/layout.tsx
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import Sidebar from '@/components/admin/Sidebar';
-import { checkAdminAuth } from '@/lib/api/admin';
+import Sidebar from '@/components/adminLayouts/Sidebar';
 
 export default function AdminLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
-  const router = useRouter();
-  const pathname = usePathname();
-
-  useEffect(() => {
-    const verifyAuth = async () => {
-      const isAuthenticated = await checkAdminAuth();
-      if (!isAuthenticated && pathname !== '/admin/login') {
-        router.push('/admin/login');
-      }
-    };
-    verifyAuth();
-  }, [pathname, router]);
 
   return (
     <div className="flex h-screen bg-gray-100">
