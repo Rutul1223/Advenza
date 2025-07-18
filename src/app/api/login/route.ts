@@ -1,8 +1,7 @@
-// /src/app/api/login/route.ts
-
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@/generated/prisma'; // or '@prisma/client'
+import { PrismaClient } from '@/generated/prisma';
 import bcrypt from 'bcryptjs';
+import { v4 as uuidv4 } from 'uuid';
 
 const prisma = new PrismaClient();
 
@@ -26,11 +25,35 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
     }
 
-    // Success (optional: issue JWT or session later)
-    return NextResponse.json({ message: 'Login successful', user: { name: user.name, email: user.email } }, { status: 200 });
+    // Create a session
+    const sessionToken = uuidv4();
+    const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000); // 7 days
+    await prisma.session.create({
+      data: {
+        token: sessionToken,
+        userId: user.id, // Now an Int, matching User.id
+        expiresAt,
+      },
+    });
 
-  } catch (error) {
+    // Set session cookie
+    const response = NextResponse.json(
+      { message: 'Login successful', user: { name: user.name, email: user.email } },
+      { status: 200 }
+    );
+    response.cookies.set('session', sessionToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      expires: expiresAt,
+      path: '/',
+    });
+
+    return response;
+  } catch (error: any) {
     console.error('Login error:', error);
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
+  } finally {
+    await prisma.$disconnect();
   }
 }

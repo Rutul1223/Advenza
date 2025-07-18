@@ -23,11 +23,21 @@ model Subscriber {
 }
 
 model User {
-  id        Int       @id     @default(autoincrement())
+  id        Int       @id @default(autoincrement())
   name      String
   email     String    @unique
   contact   String
   password  String
-  type      String   @default("user")
+  type      String    @default("user")
   createdAt DateTime  @default(now())
+  sessions  Session[]
+}
+
+model Session {
+  id        String    @id @default(uuid())
+  token     String    @unique
+  userId    Int       // Changed from String to Int to match User.id
+  user      User      @relation(fields: [userId], references: [id])
+  createdAt DateTime  @default(now())
+  expiresAt DateTime
 }
