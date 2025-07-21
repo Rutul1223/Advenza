@@ -34,7 +34,7 @@ export default function Navbar({
   const menuItemsRef = useRef<(HTMLAnchorElement | null)[]>([]);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const { isLoggedIn, user, logout } = useAuth();
+  const { isLoggedIn, logout } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
 

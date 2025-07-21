@@ -1,4 +1,3 @@
-// app/admin/packages/[id]/page.tsx
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -6,9 +5,13 @@ import { useRouter } from 'next/navigation';
 import { getPackageById, createPackage, updatePackage } from '@/lib/api/admin';
 import { TravelPackage } from '@/types/packages';
 
-export default function PackageForm({ params }: { params: { id: string } }) {
+interface PageProps {
+  params: Promise<{ id: string }>; // Define params as a Promise
+}
+
+export default function PackageForm({ params }: PageProps) {
   const router = useRouter();
-  const isNew = params.id === 'new';
+  const [resolvedParams, setResolvedParams] = useState<{ id: string } | null>(null);
   const [packageData, setPackageData] = useState<Omit<TravelPackage, 'id'>>({
     title: '',
     description: '',
@@ -25,14 +28,25 @@ export default function PackageForm({ params }: { params: { id: string } }) {
     readyToPickup: [],
     availability: [],
   });
-  const [loading, setLoading] = useState(!isNew);
+  const [loading, setLoading] = useState(true); // Start with loading true until params resolve
   const [error, setError] = useState('');
 
+  // Resolve the params Promise
   useEffect(() => {
-    if (!isNew) {
+    async function resolveParams() {
+      const resolved = await params; // Await the Promise to get { id: string }
+      setResolvedParams(resolved);
+      setLoading(resolved.id === 'new'); // Set loading based on whether it's a new package
+    }
+    resolveParams();
+  }, [params]);
+
+  // Fetch package data when params are resolved and not 'new'
+  useEffect(() => {
+    if (resolvedParams && resolvedParams.id !== 'new') {
       const fetchPackage = async () => {
         try {
-          const data = await getPackageById(parseInt(params.id));
+          const data = await getPackageById(parseInt(resolvedParams.id));
           setPackageData(data);
         } catch (err) {
           setError('Failed to fetch package');
@@ -42,15 +56,19 @@ export default function PackageForm({ params }: { params: { id: string } }) {
         }
       };
       fetchPackage();
+    } else {
+      setLoading(false); // No need to fetch for new packages
     }
-  }, [isNew, params.id]);
+  }, [resolvedParams]);
+
+  const isNew = resolvedParams?.id === 'new';
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setPackageData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleArrayChange = (field: keyof Omit<TravelPackage, "id">, index: number, value: string) => {
+  const handleArrayChange = (field: keyof Omit<TravelPackage, 'id'>, index: number, value: string) => {
     setPackageData(prev => {
       const newArray = [...(prev[field] as string[])];
       newArray[index] = value;
@@ -58,14 +76,14 @@ export default function PackageForm({ params }: { params: { id: string } }) {
     });
   };
 
-  const handleAddArrayItem = (field: keyof Omit<TravelPackage, "id">) => {
+  const handleAddArrayItem = (field: keyof Omit<TravelPackage, 'id'>) => {
     setPackageData(prev => ({
       ...prev,
       [field]: [...(prev[field] as string[]), '']
     }));
   };
 
-  const handleRemoveArrayItem = (field: keyof Omit<TravelPackage, "id">, index: number) => {
+  const handleRemoveArrayItem = (field: keyof Omit<TravelPackage, 'id'>, index: number) => {
     setPackageData(prev => {
       const newArray = [...(prev[field] as string[])];
       newArray.splice(index, 1);
@@ -75,12 +93,13 @@ export default function PackageForm({ params }: { params: { id: string } }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!resolvedParams) return; // Ensure params are resolved
     setLoading(true);
     try {
       if (isNew) {
         await createPackage(packageData);
       } else {
-        await updatePackage(parseInt(params.id), packageData);
+        await updatePackage(parseInt(resolvedParams.id), packageData);
       }
       router.push('/admin/packages');
     } catch (err) {
@@ -91,7 +110,7 @@ export default function PackageForm({ params }: { params: { id: string } }) {
     }
   };
 
-  if (loading) {
+  if (loading || !resolvedParams) {
     return (
       <div className="flex justify-center items-center h-64">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-gray-900"></div>
@@ -275,7 +294,6 @@ export default function PackageForm({ params }: { params: { id: string } }) {
                 />
               </div>
 
-              {/* Itinerary Section */}
               <div className="sm:col-span-6">
                 <label className="block text-sm font-medium text-gray-700">Itinerary</label>
                 {packageData.itinerary?.map((item, index) => (
@@ -306,10 +324,6 @@ export default function PackageForm({ params }: { params: { id: string } }) {
                   Add Itinerary Item
                 </button>
               </div>
-
-              {/* Similar sections for inclusions, exclusions, availability, etc. */}
-              {/* ... */}
-
             </div>
           </div>
           <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">

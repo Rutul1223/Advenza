@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-import { PrismaClient } from '@/generated/prisma'; // Adjust if using '@prisma/client'
+import { Prisma, PrismaClient } from '@/generated/prisma'; // Adjust if using '@prisma/client'
 
 const prisma = new PrismaClient();
 
@@ -54,10 +54,10 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ message: 'User registered successfully', user }, { status: 201 });
-  } catch (err: any) {
+  } catch (err: unknown) {
     console.error('Register error:', err);
-    if (err.code === 'P2002') {
-      return NextResponse.json({ error: 'Email already registered' }, { status: 409 });
+    if (err instanceof Prisma.PrismaClientKnownRequestError && err.code === 'P2002') {
+        return NextResponse.json({ error: 'Email already registered' }, { status: 409 });
     }
     return NextResponse.json({ error: 'Server error' }, { status: 500 });
   } finally {
