@@ -50,10 +50,53 @@ export const getDashboardStats = async (): Promise<{
   return data;
 };
 
+// src/lib/api/admin.ts
 export const getPackages = async (): Promise<TravelPackage[]> => {
-  const response = await fetch(`${API_BASE_URL}/admin/packages`);
-  if (!response.ok) throw new Error('Failed to fetch packages');
-  return response.json();
+  try {
+    const response = await fetch(`${API_BASE_URL}/admin/packages`, {
+      method: 'GET',
+      credentials: 'include', // Include cookies for authentication
+      headers: {
+        'Cache-Control': 'no-cache', // Optional: Disable caching for testing
+        'Accept': 'application/json', // Request JSON
+      },
+      redirect: 'manual', // Prevent automatic redirect following
+    });
+
+    // Handle redirect statuses (301, 302, 303)
+    if ([301, 302, 303].includes(response.status)) {
+      console.warn(`Received redirect status ${response.status} for /admin/packages`);
+      const redirectUrl = response.headers.get('Location');
+      console.warn('Redirect URL:', redirectUrl);
+      return []; // Return empty array for redirects (e.g., unauthenticated)
+    }
+
+    // Handle 304 Not Modified
+    if (response.status === 304) {
+      console.log('Received 304 Not Modified, returning empty array');
+      return [];
+    }
+
+    if (!response.ok) {
+      const errorText = await response.text();
+      console.error(`Failed to fetch packages: ${response.status} ${errorText}`);
+      throw new Error(`Failed to fetch packages: ${response.status} ${errorText}`);
+    }
+
+    // Check if response is JSON
+    const contentType = response.headers.get('Content-Type');
+    if (!contentType || !contentType.includes('application/json')) {
+      const text = await response.text();
+      console.error('Non-JSON response received:', text);
+      throw new Error('Received non-JSON response from server');
+    }
+
+    const data = await response.json();
+    return data || []; // Return empty array if data is null/undefined
+  } catch (error) {
+    console.error('Error fetching packages:', error);
+    throw error; // Let the caller handle the error
+  }
 };
 
 export const getPackageById = async (id: number): Promise<TravelPackage> => {
@@ -63,15 +106,39 @@ export const getPackageById = async (id: number): Promise<TravelPackage> => {
 };
 
 export const createPackage = async (data: Omit<TravelPackage, 'id'>): Promise<TravelPackage> => {
-  const response = await fetch(`${API_BASE_URL}/admin/packages`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(data),
-  });
-  if (!response.ok) throw new Error('Failed to create package');
-  return response.json();
+  try {
+    const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
+    const response = await fetch(`${API_BASE_URL}/api/admin/packages`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify(data),
+    });
+
+    // Check for redirects
+    if (response.redirected) {
+      window.location.href = response.url;
+      throw new Error('Authentication required');
+    }
+
+    const contentType = response.headers.get('content-type');
+    if (!contentType || !contentType.includes('application/json')) {
+      const text = await response.text();
+      throw new Error(`Expected JSON, got ${contentType}: ${text}`);
+    }
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to create package');
+    }
+
+    return await response.json();
+  } catch (error) {
+    console.error('Error in createPackage:', error);
+    throw error;
+  }
 };
 
 export const updatePackage = async (id: number, data: Partial<TravelPackage>): Promise<TravelPackage> => {

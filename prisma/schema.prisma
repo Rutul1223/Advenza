@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
@@ -23,21 +17,80 @@ model Subscriber {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  name      String
-  email     String    @unique
-  contact   String
-  password  String
-  type      String    @default("user")
-  createdAt DateTime  @default(now())
-  sessions  Session[]
+  id         Int       @id @default(autoincrement())
+  name       String
+  email      String    @unique
+  contact    String
+  password   String
+  type       String    @default("user") // Could be 'admin', 'customer', etc.
+  createdAt  DateTime  @default(now())
+
+  sessions   Session[]
+  bookings   Booking[]
 }
 
 model Session {
-  id        String    @id @default(uuid())
-  token     String    @unique
-  userId    Int       // Changed from String to Int to match User.id
-  user      User      @relation(fields: [userId], references: [id])
-  createdAt DateTime  @default(now())
-  expiresAt DateTime
+  id         String    @id @default(uuid())
+  token      String    @unique
+  userId     Int
+  user       User      @relation(fields: [userId], references: [id])
+  createdAt  DateTime  @default(now())
+  expiresAt  DateTime
+}
+
+model TravelPackage {
+  id             Int             @id @default(autoincrement())
+  image          String
+  title          String
+  duration       String
+  price          String
+  details        String
+  description    String
+  category       String?
+  status         String          // 'active' | 'inactive'
+  rating         Float?
+  location       String?
+  reviewsCount   Int?
+  mapEmbedUrl    String?
+  bookingUrl     String?
+  tags           String[]        // Array of tags
+  itinerary      String[]        // Array of itinerary items
+  inclusions     String[]        // Array of inclusions
+  exclusions     String[]        // Array of exclusions
+  availability   Json            // JSON for availability array
+  readyToPickup  Json            // JSON for readyToPickup array
+
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+
+  bookings       Booking[]
+}
+
+model Booking {
+  id              Int           @id @default(autoincrement())
+  packageId       Int
+  travelPackage   TravelPackage @relation(fields: [packageId], references: [id])
+
+  userId          Int
+  user            User          @relation(fields: [userId], references: [id])
+
+  customerName    String
+  customerEmail   String
+  travelDate      DateTime
+  travelers       Int
+  amount          Float
+  status          String        // 'pending' | 'confirmed' | 'cancelled' | 'completed'
+
+  createdAt       DateTime      @default(now())
+}
+
+model Customer {
+  id              Int      @id @default(autoincrement())
+  name            String
+  email           String   @unique
+  phone           String
+  totalBookings   Int
+  lastBookingDate DateTime?
+
+  createdAt       DateTime @default(now())
 }
