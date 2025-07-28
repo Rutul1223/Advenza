@@ -309,7 +309,7 @@ export const packagesData: TravelPackage[] = [
     id: 6,
     title: "Ladakh Biking Expedition",
     description: "An adrenaline-packed bike ride through high-altitude terrains.",
-    details: " Sexpedition",
+    details: "Embark on a thrilling biking expedition",
     image: "https://thedreamridersgroup.com/listing/9/Explore%20Ladakh%20on%20two%20wheels,Morey%20Plains.jpg",
     duration: "8 Days",
     price: "22,000",
