@@ -81,16 +81,24 @@ export const getPackageById = async (id: number): Promise<TravelPackage> => {
 
 export const createPackage = async (data: Omit<TravelPackage, 'id'>): Promise<TravelPackage> => {
   try {
+    // Transform data to match Prisma schema
+    const transformedData = {
+      ...data,
+      rating: data.rating ? parseFloat(data.rating as unknown as string) : null, // Handle optional rating
+      reviewsCount: data.reviewsCount ? parseInt(data.reviewsCount as unknown as string, 10) : null, // Handle optional reviewsCount
+      availability: data.availability, // Already an object, should be JSON-serializable
+      readyToPickup: data.readyToPickup, // Already an array of objects, should be JSON-serializable
+    };
+
     const response = await fetch(`${API_BASE_URL}/api/admin/packages`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       credentials: 'include',
-      body: JSON.stringify(data),
+      body: JSON.stringify(transformedData),
     });
 
-    // Check for redirects
     if (response.redirected) {
       window.location.href = response.url;
       throw new Error('Authentication required');

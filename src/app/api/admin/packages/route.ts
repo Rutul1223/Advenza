@@ -20,14 +20,20 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const data = await request.json();
+    console.log('Received data:', data); // Log incoming data
     const newPackage = await prisma.travelPackage.create({
       data: data,
     });
     return NextResponse.json(newPackage, { status: 201 });
-  } catch (error) {
-    console.error('Error creating package:', error);
+  } catch (error: any) {
+    console.error('Error creating package:', {
+      message: error.message,
+      stack: error.stack,
+      code: error.code, // Prisma-specific error code
+      meta: error.meta, // Additional error details from Prisma
+    });
     return NextResponse.json(
-      { message: 'Failed to create package' },
+      { message: 'Failed to create package', error: error.message },
       { status: 500 }
     );
   }

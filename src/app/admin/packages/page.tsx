@@ -69,7 +69,13 @@ export default function PackagesPage() {
                 <td className="px-6 py-4 whitespace-nowrap">
                   <div className="flex items-center">
                     <div className="flex-shrink-0 h-10 w-10">
-                      <Image className="h-10 w-10 rounded-full" src={pkg.image} alt={pkg.title} />
+                      <Image
+  src={pkg.image}
+  alt={pkg.title}
+  width={300} // Specify a default or actual width
+  height={200} // Specify a default or actual height
+  className="object-cover"
+/>
                     </div>
                     <div className="ml-4">
                       <div className="text-sm font-medium text-gray-900">{pkg.title}</div>

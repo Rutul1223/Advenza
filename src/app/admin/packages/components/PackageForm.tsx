@@ -144,20 +144,31 @@ export default function PackageForm() {
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setError('');
-    try {
-      await createPackage(formData);
-      router.push('/admin/packages');
-      router.refresh();
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to create package');
-      console.error('Error creating package:', err);
-    } finally {
+  e.preventDefault();
+  setIsSubmitting(true);
+  setError('');
+
+  // Validate required fields
+  const requiredFields = ['image', 'title', 'duration', 'price', 'details', 'description'];
+  for (const field of requiredFields) {
+    if (!formData[field as keyof typeof formData]) {
+      setError(`Missing required field: ${field}`);
       setIsSubmitting(false);
+      return;
     }
-  };
+  }
+
+  try {
+    await createPackage(formData);
+    router.push('/admin/packages');
+    router.refresh();
+  } catch (err) {
+    setError(err instanceof Error ? err.message : 'Failed to create package');
+    console.error('Error creating package:', err);
+  } finally {
+    setIsSubmitting(false);
+  }
+};
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md">
